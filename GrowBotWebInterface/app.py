@@ -1,4 +1,5 @@
-from flask import Flask, render_template, flash, redirect, url_for, session, request, logging
+import os
+from flask import Flask, render_template, flash, redirect, url_for, session, request, logging, send_from_directory
 from wtforms import Form, StringField, TextAreaField, PasswordField, validators
 from testfunctions import hellonameloop
 from odrive import calibrate as calibrateODRIVE
@@ -36,7 +37,10 @@ def test():
 def test2():
     return render_template('test.html')
 
-#comment
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, 'static'),
+                          'favicon.ico',mimetype='image/vnd.microsoft.icon')
 
 @app.route('/calibrate')
 def calibrate():
