@@ -1,0 +1,30 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+  <div class="jumbotron text-center">
+    <h1>Welcome To Your GrowBot</h1>
+    <p class="lead">Use this website/web interface to control your GrowBot and get data from its sensors.</p>
+  </div>
+    <br>
+  <div class="text-center">
+    <form action="/test" >
+        <input type="submit" value="Testing Button" />
+    </form>
+    <br>
+  </div>
+  <div class="container">
+    <form name="passdata" action="." method="POST">
+      <label>Name:</label>
+        <input type="text" name="NAME">
+      <label>Times to loop:</label>
+        <input type="number" name="I">
+        <input type="submit" name="Submit">
+    </form>
+  </div>
+  <br>
+<div class="text-center">
+  <form action="/calibrate" >
+      <input type="submit" value="Calibrate O-Drive" />
+  </form>
+{% endblock %}

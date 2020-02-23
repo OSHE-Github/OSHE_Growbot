@@ -1,0 +1,14 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+  <h1>Calculator</h1>
+    <p>The +, -, *, and / operators work as normal, but to put someting to a power use "pow(a, b)"</p>
+    <br>
+      <form method="post">
+        <input type="text" name="expression"/>
+        <input type="submit" value="Calculate"/>
+      </form>
+      <div class="text-centered">
+        <h2>{{'Answer: %s' % result}}</h2>
+      </div>
+{% endblock %}
