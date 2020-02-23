@@ -2,10 +2,6 @@
 
 {% block body %}
 
-  <div class="text-center">
-    <img src="/static/OSHE_Logo.png" class="rounded" alt="Open Source Hardware Enterprise logo">
-  </div>
-    <br>
   <div class="jumbotron text-center">
     <h1>Welcome To Your GrowBot</h1>
     <p class="lead">Use this website/web interface to control your GrowBot and get data from its sensors.</p>
@@ -31,4 +27,8 @@
   <form action="/calibrate" >
       <input type="submit" value="Calibrate O-Drive" />
   </form>
+    <br>
+  <div class="text-center">
+    <img src="/static/OSHE_Logo.png" width="300" height="300" class="rounded" alt="Open Source Hardware Enterprise logo">
+  </div>
 {% endblock %}
