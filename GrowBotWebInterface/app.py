@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, flash, redirect, url_for, session, request, logging, send_from_directory
+from flask import Flask, render_template, flash, redirect, url_for, session, request, logging, send_from_directory, jsonify
 from wtforms import Form, StringField, TextAreaField, PasswordField, validators
 from testfunctions import hellonameloop
 from odrive import calibrate as calibrateODRIVE
@@ -13,6 +13,29 @@ def index():
 @app.route('/about')
 def about():
     return render_template('about.html')
+
+@app.route('/interactive/')
+def interactive():
+	return render_template('interactive.html')
+
+@app.route('/background_process')
+def background_process():
+	lang = request.args.get('proglang', 0, type=str)
+	if lang.lower() == 'python':
+		return jsonify(result='You are wise')
+	else:
+		return jsonify(result='Try again.')
+
+# @app.route('/background_process')
+# def background_process():
+# 	try:
+# 		lang = request.args.get('proglang', 0, type=str)
+# 		if lang.lower() == 'python':
+# 			return jsonify(result='You are wise')
+# 		else:
+# 			return jsonify(result='Try again.')
+# 	except Exception as e:
+# 		return str(e)
 
 @app.route('/calculator', methods=['GET', 'POST'])
 def calculator():
