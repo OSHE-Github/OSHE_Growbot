@@ -21,7 +21,6 @@ def data():
     # Data Format
     # [TIME, Temperature, Moisture]
 
-    time.sleep(1)
     Temperature = getTemp()
     Moisture = random() * 55
 
