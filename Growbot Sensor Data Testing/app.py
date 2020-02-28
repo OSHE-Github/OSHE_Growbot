@@ -4,7 +4,7 @@ import json
 from time import time
 from random import random
 from flask import Flask, render_template, make_response
-from gettemps import gettemps
+from gettemps import getTemp
 
 app = Flask(__name__)
 
