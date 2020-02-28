@@ -4,5 +4,5 @@ import time
 cpu = CPUTemperature()
 def getTemp():
     temp = cpu.temperature
-    time.sleep(1)
+    # time.sleep(1)
     return temp
