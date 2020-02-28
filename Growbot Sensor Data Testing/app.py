@@ -9,7 +9,7 @@ from gettemps import getTemp
 app = Flask(__name__)
 
 
-# Defines the home page
+# Defines the sensors page
 @app.route('/sensors', methods=["GET", "POST"])
 def main():
     return render_template('sensors.html')

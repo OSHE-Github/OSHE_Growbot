@@ -1,8 +1,13 @@
 import os
-from flask import Flask, render_template, flash, redirect, url_for, session, request, logging, send_from_directory, jsonify
+from flask import Flask, render_template, flash, redirect, url_for, session, request, logging, send_from_directory, jsonify, make_response
 from wtforms import Form, StringField, TextAreaField, PasswordField, validators
 from testfunctions import hellonameloop
 from odrive import calibrate as calibrateODRIVE
+import random
+import json
+from time import time
+from random import random
+from gettemps import getTemp
 
 app = Flask(__name__)
 
@@ -17,6 +22,29 @@ def about():
 @app.route('/interactive/')
 def interactive():
 	return render_template('interactive.html')
+
+# Defines the sensors page
+@app.route('/sensors', methods=["GET", "POST"])
+def main():
+    return render_template('sensors.html')
+
+
+# Defines the data webpage (not seen by the user)
+@app.route('/data', methods=["GET", "POST"])
+def data():
+    # Data Format
+    # [TIME, Temperature, Moisture]
+
+    Temperature = getTemp()
+    Moisture = random() * 55
+
+    data = [time() * 1000, Temperature, Moisture]
+
+    response = make_response(json.dumps(data))
+
+    response.content_type = 'application/json'
+
+    return response
 
 @app.route('/_background_process')
 def background_process():
