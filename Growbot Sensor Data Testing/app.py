@@ -10,9 +10,9 @@ app = Flask(__name__)
 
 
 # Defines the home page
-@app.route('/', methods=["GET", "POST"])
+@app.route('/sensors', methods=["GET", "POST"])
 def main():
-    return render_template('index.html')
+    return render_template('sensors.html')
 
 
 # Defines the data webpage (not seen by the user)
