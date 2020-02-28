@@ -18,7 +18,7 @@ def about():
 def interactive():
 	return render_template('interactive.html')
 
-@app.route('/background_process')
+@app.route('/_background_process')
 def background_process():
 	lang = request.args.get('proglang', 0, type=str)
 	if lang.lower() == 'python':
