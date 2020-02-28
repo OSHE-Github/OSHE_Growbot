@@ -4,6 +4,7 @@ import json
 from time import time
 from random import random
 from flask import Flask, render_template, make_response
+from gettemps import gettemps
 
 app = Flask(__name__)
 
@@ -20,7 +21,7 @@ def data():
     # Data Format
     # [TIME, Temperature, Moisture]
 
-    Temperature = random() * 100
+    Temperature = getTemp()
     Moisture = random() * 55
 
     data = [time() * 1000, Temperature, Moisture]
@@ -33,4 +34,4 @@ def data():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host='0.0.0.0', debug=True)
