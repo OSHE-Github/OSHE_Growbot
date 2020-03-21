@@ -24,28 +24,33 @@ def about():
 def interactive():
 	return render_template('interactive.html')
 
-# Defines the sensors page
-@app.route('/sensors', methods=["GET", "POST"])
-def main():
-    return render_template('sensors.html')
+# This chunk of commented out code was a test of graphing live data, which
+# I no longer thing we will be doing on this project as we will most likely
+# not need better than even perhaps 10 minute precision, so I may just have
+# the webpage auto refresh every 10 minutes instead.
 
-
-# Defines the data webpage (not seen by the user)
-@app.route('/data', methods=["GET", "POST"])
-def data():
-    # Data Format
-    # [TIME, Temperature, Moisture]
-
-    Temperature = getTemp()
-    Moisture = random() * 55
-
-    data = [time() * 1000, Temperature, Moisture]
-
-    response = make_response(json.dumps(data))
-
-    response.content_type = 'application/json'
-
-    return response
+# # Defines the sensors page
+# @app.route('/sensors', methods=["GET", "POST"])
+# def main():
+#     return render_template('sensors.html')
+#
+#
+# # Defines the data webpage (not seen by the user)
+# @app.route('/data', methods=["GET", "POST"])
+# def data():
+#     # Data Format
+#     # [TIME, Temperature, Moisture]
+#
+#     Temperature = getTemp()
+#     Moisture = random() * 55
+#
+#     data = [time() * 1000, Temperature, Moisture]
+#
+#     response = make_response(json.dumps(data))
+#
+#     response.content_type = 'application/json'
+#
+#     return response
 
 @app.route('/_background_process')
 def background_process():
