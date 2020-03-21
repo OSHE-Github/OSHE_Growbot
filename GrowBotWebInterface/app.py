@@ -105,8 +105,8 @@ def calibrate():
     return render_template('calibrate.html')
 
 
-@app.route("/data2.json")
-def data2():
+@app.route("/data.json")
+def data():
     connection = sqlite3.connect("db.sqlite")
     cursor = connection.cursor()
     cursor.execute("SELECT 1000*timestamp, measure from measures")
