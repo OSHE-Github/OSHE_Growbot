@@ -50,7 +50,7 @@ def about():
 #     return response
 
 
-@app.route('/interactive/')
+@app.route('/interactive')
 def interactive():
 	return render_template('interactive.html')
 
@@ -119,9 +119,9 @@ def data():
     return json.dumps(results)
 
 
-@app.route('/graph')
-def graph():
-    return render_template('graph.html')
+@app.route('/graphs')
+def graphs():
+    return render_template('graphs.html')
 
 
 if __name__ == '__main__':
