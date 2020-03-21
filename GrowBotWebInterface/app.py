@@ -8,6 +8,7 @@ import json
 from time import time
 from random import random
 from gettemps import getTemp
+import sqlite3
 
 app = Flask(__name__)
 
@@ -97,6 +98,22 @@ def favicon():
 def calibrate():
     calibrateODRIVE()
     return render_template('calibrate.html')
+
+
+@app.route("/data.json")
+def data():
+    connection = sqlite3.connect("db.sqlite")
+    cursor = connection.cursor()
+    cursor.execute("SELECT 1000*timestamp, measure from measures")
+    results = cursor.fetchall()
+    print(results)
+    return json.dumps(results)
+
+
+@app.route('/graph')
+def graph():
+    return render_template('graph.html')
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True) #host='0.0.0.0'
