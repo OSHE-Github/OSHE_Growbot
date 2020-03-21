@@ -20,9 +20,6 @@ def index():
 def about():
     return render_template('about.html')
 
-@app.route('/interactive/')
-def interactive():
-	return render_template('interactive.html')
 
 # This chunk of commented out code was a test of graphing live data, which
 # I no longer thing we will be doing on this project as we will most likely
@@ -52,6 +49,12 @@ def interactive():
 #
 #     return response
 
+
+@app.route('/interactive/')
+def interactive():
+	return render_template('interactive.html')
+
+
 @app.route('/_background_process')
 def background_process():
 	lang = request.args.get('proglang', 0, type=str)
@@ -59,6 +62,7 @@ def background_process():
 		return jsonify(result='You are wise')
 	else:
 		return jsonify(result='Try again.')
+
 
 # @app.route('/background_process')
 # def background_process():
