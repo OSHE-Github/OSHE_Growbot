@@ -7,7 +7,6 @@ import random
 import json
 from time import time
 from random import random
-from gettemps import getTemp
 import sqlite3
 
 app = Flask(__name__)
@@ -100,8 +99,8 @@ def test2():
 
 @app.route('/favicon.ico')
 def favicon():
-    return send_from_directory(os.path.join(app.root_path, 'static'),
-                          'favicon.ico',mimetype='image/vnd.microsoft.icon')
+    return send_from_directory(os.path.join(app.root_path, 'static/images'), 'favicon.ico',mimetype='image/vnd.microsoft.icon')
+
 
 @app.route('/calibrate')
 def calibrate():
