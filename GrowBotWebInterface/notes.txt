@@ -1,0 +1,10 @@
+gps
+nitrate sensing
+spectroscopic sampel of leaf photosynthis prerecentage testing
+camera to webcam to see if their are pest and growth. timelapse.
+image id of pests
+ph of soil sensors
+tof distance
+voc and co2 gas senosr
+
+seed studios is a list of sensors
