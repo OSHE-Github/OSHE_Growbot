@@ -26,10 +26,30 @@
         <button class="btn btn-primary btn-sm" type="submit">Submit</button>
     </form>
   </div>
-  <br>
+
+<br>
+<br>
+
+<div class="center">
+  <form name="passdata2" action="." method="POST" class="form-inline">
+    <div class="form-row">
+      <label for="Name2" >Name: </label>
+      <input type="text" class="form-control" id="Name2" placeholder="The text you wish to loop">
+    </div>
+    <div class="form-group">
+      <label for="I2">Times to loop: </label>
+      <input type="number" class="form-control" id="I2" placeholder="The number of repeats">
+    </div>
+    <button class="btn btn-primary btn-sm" type="submit">Submit</button>
+  </form>
+</div>
+
+<br>
+<br>
+
 <div class="text-center">
   <form action="/calibrate" >
-      <input type="submit" value="Calibrate O-Drive" />
+      <button class="btn btn-primary btn-sm" type="submit">Calibrate O-Drive</button>
   </form>
 
 {% endblock %}
