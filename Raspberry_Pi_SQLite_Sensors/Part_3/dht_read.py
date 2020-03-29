@@ -7,7 +7,7 @@
 import datetime
 import time
 
-import Adafruit_DHT
+#import Adafruit_DHT
 
 import model
 
@@ -18,8 +18,18 @@ import model
 data = model.DHTData()
 
 # Define which sensors we expect to be connected to the Pi.
-data.define_sensor('DHT1', Adafruit_DHT.DHT22, 18)
-data.define_sensor('DHT2', Adafruit_DHT.DHT22, 25)
+data.define_sensor('DHT1', 10, 18) #Adafruit_DHT.DHT22
+data.define_sensor('DHT2', 10, 25)
+
+
+# from gpiozero import CPUTemperature
+# import time
+#
+# cpu = CPUTemperature()
+# def getTemp():
+#     time.sleep(1)
+#     return cpu.temperature
+
 
 # Main loop to take sensor readings every two seconds.
 try:
@@ -29,7 +39,8 @@ try:
         # Go through each sensor and get its current reading.
         for sensor in data.get_sensors():
             # Get a DHT sensor reading and print it out.
-            humidity, temperature = Adafruit_DHT.read_retry(sensor.dht_type, sensor.pin)
+            humidity, temperature = 10, 10
+            '''Adafruit_DHT.read_retry(sensor.dht_type, sensor.pin)'''
             print('Read sensor: {0} humidity: {1:0.2f}% temperature: {2:0.2f}C'.format(sensor.name, humidity, temperature))
             # Add the sensor reading to the database.
             data.add_reading(time=reading_time, name='{0} Humidity'.format(sensor.name), value=humidity)
