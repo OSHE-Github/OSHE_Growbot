@@ -1,3 +1,10 @@
+#Zach Arnold
+#Open Source Hardware Enterprise
+#Growbot
+#Created: 2/25/2020
+#Last Modified: 4/2/2020
+#Description: This python file consists of functions used for the Soil Sensor
+
 import time
 from board import SCL, SDA
 import busio
