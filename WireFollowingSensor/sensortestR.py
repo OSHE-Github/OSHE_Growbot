@@ -51,6 +51,6 @@ while (time.time() - start) <= 5.0:
     print('Channel 1: {1}'.format(value))
     # Sleep for half a second.
     time.sleep(0.5)
-z
+
 # Stop continuous conversion.  After this point you can't get data from get_last_result!
 adc.stop_adc()
