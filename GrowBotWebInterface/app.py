@@ -1,7 +1,7 @@
 import os
-from flask import Flask, render_template, flash, redirect, url_for, session, request, logging, send_from_directory, jsonify, make_response
+from flask import Flask, render_template, flash, redirect, url_for, session, request, logging, send_from_directory, jsonify, make_response, flash
 from wtforms import Form, StringField, TextAreaField, PasswordField, validators
-from testfunctions import hellonameloop
+# from testfunctions import hellonameloop
 from odrive import calibrate as calibrateODRIVE
 import random
 import json
@@ -10,6 +10,7 @@ from random import random
 import sqlite3
 from flask_admin import Admin
 from flask_admin.contrib.peewee import ModelView
+from nineDofSensor import readXYAccel
 
 import model
 
@@ -32,6 +33,9 @@ def index():
 # About page for project
 @app.route('/about')
 def about():
+    x_Accel, y_Accel = readXYAccel()
+    if (x_Accel > 5 or y_Accel > 5):
+        flash("This is an alert! Your Robot may have tipped over!")
     return render_template('about.html')
 
 
