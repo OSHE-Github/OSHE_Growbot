@@ -27,7 +27,7 @@ try:
         reading_time = datetime.datetime.now()
         # read moisture level through capacitive touch pad 200 - 2000
         touch = ss.moisture_read()
-        #touch = ((touch - 200)/1800)*100
+        touch = ((touch - 200)/1800)*100
         touch = round(touch, 2)
         # read temperature from the temperature sensor
         temp = ss.get_temp()
