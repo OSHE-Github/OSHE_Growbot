@@ -1,0 +1,87 @@
+{% extends 'admin/master.html' %}
+
+{% block body %}
+  <div class="jumbotron">
+    <div class="container">
+      <h1>Growbot Sensor Data Storage</h1>
+      <p>Sensor readings stored in a SQLite database! <a href="/">Click here to go back to the main page</a></p>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row">
+      {% for sensor in config.MODEL.get_sensors() %}
+        <div class="col-md-5">
+          <h2>{{ sensor.name }}</h2>
+          <canvas id='chart_{{ sensor.id }}' width='400' height='400'></canvas>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock %}
+
+<!-- // Alert code -->
+{% with messages = get_flashed_messages() %}
+ {% if messages %}
+  {% for message in messages %}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+       {{message}}
+    </div>
+  {% endfor %}
+ {% endif %}
+{% endwith %}
+
+{% block tail %}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.1.1/Chart.min.js"></script>
+  <script>
+    // Function to build a sensor chart.  Must pass in the id of the canvas
+    // which will hold the chart, then a list of labels, humidity values, and
+    // temperature values.
+    function buildChart(id, labels, moisture, temperature) {
+      // Use Chart.js to build a chart with humidity and temperature.
+      var ctx = $(id).get(0).getContext('2d');
+      var chart = new Chart(ctx).Line({
+        labels: labels,
+        datasets: [
+          {
+            label: "Temperature (Celsius)",
+            fillColor: "rgba(220,220,220,0.2)",
+            strokeColor: "rgba(220,220,220,1)",
+            pointColor: "rgba(220,220,220,1)",
+            pointStrokeColor: "#fff",
+            pointHighlightFill: "#fff",
+            pointHighlightStroke: "rgba(220,220,220,1)",
+            data: temperature
+          },
+          {
+            label: "Moisture (%)",
+            fillColor: "rgba(151,187,205,0.2)",
+            strokeColor: "rgba(151,187,205,1)",
+            pointColor: "rgba(151,187,205,1)",
+            pointStrokeColor: "#fff",
+            pointHighlightFill: "#fff",
+            pointHighlightStroke: "rgba(151,187,205,1)",
+            data: moisture
+          }
+        ]
+      });
+    }
+
+    // JQuery ready function will be called once all the assets on the page (like
+    // Chart.js) have loaded.
+    $(document).ready(function() {
+      // Loop through each sensor and call the buildChart function above
+      // to generate its chart.
+      {% for sensor in config.MODEL.get_sensors() %}
+        {% set moisture = config.MODEL.get_recent_readings(sensor.name + ' Moisture') %}
+        {% set temperature = config.MODEL.get_recent_readings(sensor.name + ' Temperature') %}
+        buildChart('#chart_{{ sensor.id }}',
+                      ["{{ moisture|reverse|join('\",\"', attribute='time')|safe }}"],
+                      [{{ moisture|reverse|join(',', attribute='value') }}],
+                      [{{ temperature|reverse|join(',', attribute='value') }}]);
+
+      {% endfor %}
+    });
+  </script>
+{% endblock %}
