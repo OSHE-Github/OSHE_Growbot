@@ -57,7 +57,7 @@ def sensor_home():
 
 def sensor_down():
     #move motor down X (value determined from testing) to go into soil, then read_soil
-    sensor_home()
+    #sensor_home()
 
     # enable driver
     GPIO.output(sleep, GPIO.HIGH)
