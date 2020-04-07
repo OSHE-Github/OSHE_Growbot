@@ -55,25 +55,21 @@ def read_soil():
 
 def step( stepVal ):
     if stepVal == 0:
-        print("1\n")
         A1.value = True
         A2.value = False
         B1.value = True
         B2.value = False
     elif stepVal == 1:
-        print("2\n")
         A1.value = False
         A2.value = True
         B1.value = True
         B2.value = False
     elif stepVal == 2:
-        print("3\n")
         A1.value = False
         A2.value = True
         B1.value = False
         B2.value = True
     elif stepVal == 3:
-        print("4\n")
         A1.value = True
         A2.value = False
         B1.value = False
