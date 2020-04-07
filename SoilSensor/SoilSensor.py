@@ -54,26 +54,22 @@ def read_soil():
     #print("Homing sensor...\n")
 
 def step( stepVal ):
-    if stepVal == 1:
-        print("1\n")
+    if stepVal == 0:
         A1.value = True
         A2.value = False
         B1.value = True
         B2.value = False
-    elif stepVal == 2:
-        print("2\n")
+    elif stepVal == 1:
         A1.value = False
         A2.value = True
         B1.value = True
         B2.value = False
-    elif stepVal == 3:
-        print("3\n")
+    elif stepVal == 2:
         A1.value = False
         A2.value = True
         B1.value = False
         B2.value = True
-    elif stepVal == 4:
-        print("4\n")
+    elif stepVal == 3:
         A1.value = True
         A2.value = False
         B1.value = False
