@@ -13,12 +13,12 @@ import RPi.GPIO as GPIO
 
 GPIO.setmode(GPIO.BOARD)
 
-A1 = 40
-A2 = 37
-sleep = 38
-B2 = 35
-B1 = 36
-fault = 33
+A1 = 22
+A2 = 23
+sleep = 18
+B2 = 27
+B1 = 17
+
 pins = [A1, A2, B1, B2]
 
 # step sequence
@@ -70,6 +70,8 @@ def sensor_down():
         time.sleep(0.01)
 
     print("Deploying the sensor...\n")
+
+sensor_down()
 
 while True:
     print(read_soil())
