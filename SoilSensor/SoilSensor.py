@@ -11,9 +11,6 @@ import busio
 import digitalio
 from adafruit_seesaw.seesaw import Seesaw
 
-
-GPIO.setmode(GPIO.BOARD)
-
 A1 = digitalio.DigitalInOut(board.D22)
 A1.direction = digitalio.Direction.OUTPUT
 A2 = digitalio.DigitalInOut(board.D23)
