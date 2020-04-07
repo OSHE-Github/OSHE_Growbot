@@ -6,8 +6,8 @@
 #Description: This python file consists of functions used for the Soil Sensor
 
 import time
-#from board import SCL, SDA
-#import busio
+from board import SCL, SDA
+import busio
 from adafruit_seesaw.seesaw import Seesaw
 import RPi.GPIO as GPIO
 
