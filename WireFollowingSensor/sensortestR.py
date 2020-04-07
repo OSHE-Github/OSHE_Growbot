@@ -48,7 +48,7 @@ while (time.time() - start) <= 5.0:
     # WARNING! If you try to read any other ADC channel during this continuous
     # conversion (like by calling read_adc again) it will disable the
     # continuous conversion!
-    print('Channel 1: {1}'.format(value))
+    print('Channel 1: {0}'.format(value))
     # Sleep for half a second.
     time.sleep(0.5)
 
