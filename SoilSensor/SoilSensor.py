@@ -31,7 +31,7 @@ B1.direction = digitalio.Direction.OUTPUT
 
 #Soil sensor connection and setup
 soilAdr = 0x36
-i2c_bus = busio.I2C(SCL, SDA)
+i2c_bus = busio.I2C(board.SCL, board.SDA)
 ss = Seesaw(i2c_bus, soilAdr)
 
 #number of steps to move sensor down from home
