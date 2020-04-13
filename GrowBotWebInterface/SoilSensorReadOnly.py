@@ -40,7 +40,7 @@ try:
         temp = round(temp, 2)
 
         # Print out sensor values
-        print("Reading Sensor -> SeeSaw Soil:" + " Temperature: " + str(temp) + "°C,  Moisture: " + str(touch) + "%")
+        print("Reading Sensor -> SeeSaw Soil: Temperature: " + str(temp) + "°C,  Moisture: " + str(touch) + "%")
 
         # Add the sensor readings to the database.
         data.add_reading(time=reading_time, name='{0}'.format(sensor1Name), value=temp)

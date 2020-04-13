@@ -39,6 +39,13 @@
 {% block tail %}
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.min.js"></script>
   <script>
+      Chart.scaleService.updateScaleDefaults('linear', {
+          ticks: {
+              suggestedMin: 0,
+              suggestedMax: 0
+          }
+      });
+
     // Function to build a sensor chart.  Must pass in the id of the canvas
     // which will hold the chart, then a list of labels, humidity values, and
     // temperature values.
@@ -55,11 +62,17 @@
                         fill: true,
                         borderColor: 'rgba(247, 200, 74, 1)',
                         backgroundColor: 'rgba(247, 200, 74, 0.2)',
-                        pointBorderColor: 'rgba(111, 111, 111, 1)',
+                        //pointBorderColor: 'rgba(111, 111, 111, 1)',
                         lineTension: 0.3}
                         ]},
                 options: {
-                    responsive: true
+                    responsive: true,
+                    scales: {
+                        y: {
+                            min: 0,
+                            max: 100,
+                        }
+                    }
                 }
         });
     }
@@ -72,7 +85,7 @@
           // Loop through each sensor and call the buildChart function above
           // to generate its chart.
           {% for sensor in config.MODEL.get_sensors() %}
-            {% set value = config.MODEL.get_recent_readings(sensor.name, 30) %}
+            {% set value = config.MODEL.get_recent_readings(sensor.name, 120) %}
             console.log('{{ sensor.units }}');
             var units = '{{ sensor.units }}';
 

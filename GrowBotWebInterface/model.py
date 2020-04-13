@@ -64,6 +64,8 @@ class SensorData(object):
         # SELECT * FROM... query).
         return Sensor.select()
 
+    #def get_average_readings(self, name, limit=30):
+
     def get_recent_readings(self, name, limit=30):
         """Return a list of the most recent sensor readings with the specified
         name.  By default returns the last 30 readings in descending time order,
