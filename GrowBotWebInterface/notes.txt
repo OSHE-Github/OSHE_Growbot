@@ -12,3 +12,7 @@ voc and co2 gas senor to measure air quality?
 (https://www.adafruit.com/product/4026) Adafruit STEMMA Soil Sensor - I2C Capacitive Moisture Sensor
 
 seeedstudio.com is a list of sensors
+
+the 9dof sensor could read into the database every so often with the highest accumulated
+acceleration over the last say 5 minutes and if the last 5 minutes of the Database
+shows a spike over a certain threshold then it could trigger a flash message.

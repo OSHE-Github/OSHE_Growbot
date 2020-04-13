@@ -17,7 +17,7 @@ app.config['SECRET_KEY'] = 'mosfet'  # You should probably change this to a rand
 # the sensors & readings.
 app.config['MODEL'] = model.DHTData()
 
-# Add an admin view for the Peewee ORM-based DHT sensor and sensor reading models.
-admin = Admin(app, name='SQLite Sensors', template_mode='bootstrap3', url='/')
-admin.add_view(ModelView(model.DHTSensor))
+# Add an admin view for the Peewee ORM-based sensor and sensor reading models.
+admin = Admin(app, name='SQLite Sensors', template_mode='bootstrap3', url='/admin')
+admin.add_view(ModelView(model.SoilSensor))
 admin.add_view(ModelView(model.SensorReading))
