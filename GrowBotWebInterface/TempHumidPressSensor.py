@@ -38,32 +38,34 @@ bme280 = adafruit_bme280.Adafruit_BME280_I2C(i2c)
 # change this to match the location's pressure (hPa) at sea level
 bme280.sea_level_pressure = 1013.25
 
-while True:
-    # Get the current time for this batch of sensor readings.
-    reading_time = datetime.datetime.now()
+try:
+    while True:
+        # Get the current time for this batch of sensor readings.
+        reading_time = datetime.datetime.now()
 
-    # read in all sensor values
-    temperature = bme280.temperature
-    humidity = bme280.humidity
-    pressure = bme280.pressure
-    altitude = bme280.altitude
+        # read in all sensor values
+        temperature = bme280.temperature
+        humidity = bme280.humidity
+        pressure = bme280.pressure
+        altitude = bme280.altitude
 
-    # Print out sensor values
-    print("\nReading Sensor -> SeeSaw Soil:"
-    print(" Temperature: %0.1f °C," % bme280.temperature)
-    print(" Humidity: %0.1f %%," % bme280.humidity)
-    print(" Pressure: %0.1f hPa," % bme280.pressure)
-    print(" Altitude = %0.2f Meters" % bme280.altitude)
+        # Rounds sensor date before it is put in the database and printed
+        temperature = round(temperature, 2)
+        humidity = round(humidity, 2)
+        pressure = round(pressure, 2)
+        altitude = round(altitude, 2)
 
-    # Add the sensor readings to the database.
-    data.add_reading(time=reading_time, name='{0}'.format(sensor1Name), value=temperature)
-    data.add_reading(time=reading_time, name='{0}'.format(sensor2Name), value=humidity)
-    data.add_reading(time=reading_time, name='{0}'.format(sensor3Name), value=pressure)
-    data.add_reading(time=reading_time, name='{0}'.format(sensor4Name), value=altitude)
+        # Print out sensor values
+        print("Reading Sensor -> BME280: Temperature: " + str(temperature) + "°C,  Humidity: " + str(humidity) + "%, Pressure: " + str(pressure) + " hPa, Altitude: " + str(altitude) + " Meters")
 
-    # Wait 4 seconds and repeat.
-    time.sleep(4.0)
+        # Add the sensor readings to the database.
+        data.add_reading(time=reading_time, name='{0}'.format(sensor1Name), value=temperature)
+        data.add_reading(time=reading_time, name='{0}'.format(sensor2Name), value=humidity)
+        data.add_reading(time=reading_time, name='{0}'.format(sensor3Name), value=pressure)
+        data.add_reading(time=reading_time, name='{0}'.format(sensor4Name), value=altitude)
 
+        # Wait 4 seconds and repeat.
+        time.sleep(4.0)
 finally:
     # Finally close the connection to the database when done.
     data.close()
