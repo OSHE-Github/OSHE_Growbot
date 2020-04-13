@@ -74,11 +74,6 @@ class SensorData(object):
                             .order_by(SensorReading.time.desc()) \
                             .limit(limit)
 
-    def get_sensor_units(self, name):
-        """Returns the units of a given sensor"""
-        return Sensor.select(Sensor.units).where(Sensor.name == name)
-
-
     def add_reading(self, time, name, value):
         """Add the specified sensor reading to the database."""
         SensorReading.create(time=time, name=name, value=value)

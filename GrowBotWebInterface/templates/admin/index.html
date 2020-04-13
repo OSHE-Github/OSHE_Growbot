@@ -71,9 +71,11 @@
                     datasets: [{
                         label: units,
                         data: values,
-                        fill: false,
-                        //borderColor: rgb(75, 192, 192),
-                        lineTension: 0.1}
+                        fill: true,
+                        borderColor: 'rgba(247, 200, 74, 1)',
+                        backgroundColor: 'rgba(247, 200, 74, 0.2)',
+                        pointBorderColor: 'rgba(111, 111, 111, 1)',
+                        lineTension: 0.25}
                         ]},
                 options: {}
         });
@@ -86,8 +88,8 @@
       // to generate its chart.
       {% for sensor in config.MODEL.get_sensors() %}
         {% set value = config.MODEL.get_recent_readings(sensor.name) %}
-        {% set units = sensor.units %}
-
+        console.log('{{ sensor.units }}');
+        var units = '{{ sensor.units }}';
 
         buildChart('#chart_{{ sensor.id }}',
                       ["{{ value|reverse|join('\",\"', attribute='time')|safe }}"],
