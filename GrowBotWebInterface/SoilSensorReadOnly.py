@@ -39,14 +39,15 @@ try:
         temp = ss.get_temp()
         temp = round(temp, 2)
 
-        print("Read Sensor: " + "SeeSaw Soil" + ", Temperature: " + str(temp) + "°C,  Moisture: " + str(touch) + "%")
+        # Print out sensor values
+        print("Reading Sensor -> SeeSaw Soil:" + " Temperature: " + str(temp) + "°C,  Moisture: " + str(touch) + "%")
 
-        # Add the sensor reading to the database.
+        # Add the sensor readings to the database.
         data.add_reading(time=reading_time, name='{0}'.format(sensor1Name), value=temp)
         data.add_reading(time=reading_time, name='{0}'.format(sensor2Name), value=touch)
-        
-        # Wait 2 seconds and repeat.
-        time.sleep(2.0)
+
+        # Wait 4 seconds and repeat.
+        time.sleep(4.0)
 finally:
     # Finally close the connection to the database when done.
     data.close()
