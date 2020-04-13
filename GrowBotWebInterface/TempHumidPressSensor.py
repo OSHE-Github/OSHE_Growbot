@@ -49,7 +49,7 @@ try:
         pressure = bme280.pressure
         altitude = bme280.altitude
 
-        # Rounds sensor date before it is put in the database and printed
+        # Rounds sensor data before it is put in the database and printed
         temperature = round(temperature, 2)
         humidity = round(humidity, 2)
         pressure = round(pressure, 2)
@@ -64,8 +64,8 @@ try:
         data.add_reading(time=reading_time, name='{0}'.format(sensor3Name), value=pressure)
         data.add_reading(time=reading_time, name='{0}'.format(sensor4Name), value=altitude)
 
-        # Wait 4 seconds and repeat.
-        time.sleep(4.0)
+        # Wait 30 seconds and repeat.
+        time.sleep(120.0)
 finally:
     # Finally close the connection to the database when done.
     data.close()

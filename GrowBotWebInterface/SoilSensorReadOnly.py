@@ -46,8 +46,8 @@ try:
         data.add_reading(time=reading_time, name='{0}'.format(sensor1Name), value=temp)
         data.add_reading(time=reading_time, name='{0}'.format(sensor2Name), value=touch)
 
-        # Wait 4 seconds and repeat.
-        time.sleep(4.0)
+        # Wait 30 seconds and repeat.
+        time.sleep(120.0)
 finally:
     # Finally close the connection to the database when done.
     data.close()

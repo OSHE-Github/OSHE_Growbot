@@ -10,7 +10,7 @@ from random import random
 import sqlite3
 from flask_admin import Admin
 from flask_admin.contrib.peewee import ModelView
-from nineDofSensor import readXYAccel
+# from nineDofSensor import readXYAccel
 
 import model
 
@@ -33,9 +33,9 @@ def index():
 # About page for project
 @app.route('/about')
 def about():
-    x_Accel, y_Accel = readXYAccel()
-    if (x_Accel > 5 or y_Accel > 5):
-        flash("This is an alert! Your Robot may have tipped over!")
+    # x_Accel, y_Accel = readXYAccel()
+    # if (x_Accel > 5 or y_Accel > 5):
+    #     flash("This is an alert! Your Robot may have tipped over!")
     return render_template('about.html')
 
 
