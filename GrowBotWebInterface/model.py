@@ -16,9 +16,10 @@ db = SqliteDatabase('growbot.db', check_same_thread=False)
 # Peewee will create and manage.  Each row in the table is an instance of the
 # model (like a DHT sensor config, sensor reading, etc).
 
+# User will need to add a sensor for each thing they want to store.
 class Sensor(Model):
     name = CharField()
-    i2c_address = CharField()
+    units = CharField()
 
     class Meta:
         database = db
@@ -31,6 +32,7 @@ class SensorReading(Model):
 
     class Meta:
         database = db
+
 
 class SensorData(object):
     """Main data access layer class which provides functions to query DHT sensor
@@ -45,14 +47,14 @@ class SensorData(object):
         # deleted!).
         db.create_tables([Sensor, SensorReading], safe=True)
 
-    def define_sensor(self, name, i2c_address):
+    def define_sensor(self, name, units):
         """Define the specified sensor and add it to the database.  If a sensor
         of the same name, type, and pin exists then nothing will be added.
         """
         # Use the get_or_create function in Peewee to automatically try to find
         # a sensor the specified name, type, pin and create it if not found.
         # Very handy!
-        Sensor.get_or_create(name=name, i2c_address=i2c_address)
+        Sensor.get_or_create(name=name, units=units)
 
     def get_sensors(self):
         """Return a list of all the sensors defined in the database.
@@ -71,6 +73,11 @@ class SensorData(object):
                             .where(SensorReading.name == name) \
                             .order_by(SensorReading.time.desc()) \
                             .limit(limit)
+
+    def get_sensor_units(self, name):
+        """Returns the units of a given sensor"""
+        return Sensor.select(Sensor.units).where(Sensor.name == name)
+
 
     def add_reading(self, time, name, value):
         """Add the specified sensor reading to the database."""

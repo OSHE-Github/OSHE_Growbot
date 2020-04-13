@@ -33,39 +33,50 @@
 {% endwith %}
 
 {% block tail %}
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.1.1/Chart.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.min.js"></script>
   <script>
+    // // Function to build a sensor chart.  Must pass in the id of the canvas
+    // // which will hold the chart, then a list of labels, humidity values, and
+    // // temperature values.
+    // function buildChart(id, labels, value) {
+    //   // Use Chart.js to build a chart with humidity and temperature.
+    //   var ctx = $(id).get(0).getContext('2d');
+    //   var chart = new Chart(ctx).Line({
+    //     labels: labels,
+    //     datasets: [
+    //       {
+    //         label: "Units (%)",
+    //         fillColor: "rgba(151,187,205,0.2)",
+    //         strokeColor: "rgba(151,187,205,1)",
+    //         pointColor: "rgba(151,187,205,1)",
+    //         pointStrokeColor: "#fff",
+    //         pointHighlightFill: "#fff",
+    //         pointHighlightStroke: "rgba(151,187,205,1)",
+    //         data: value
+    //       }
+    //     ]
+    //   });
+    // }
+
     // Function to build a sensor chart.  Must pass in the id of the canvas
     // which will hold the chart, then a list of labels, humidity values, and
     // temperature values.
-    function buildChart(id, labels, moisture, temperature) {
-      // Use Chart.js to build a chart with humidity and temperature.
-      var ctx = $(id).get(0).getContext('2d');
-      var chart = new Chart(ctx).Line({
-        labels: labels,
-        datasets: [
-          {
-            label: "Temperature (Celsius)",
-            fillColor: "rgba(220,220,220,0.2)",
-            strokeColor: "rgba(220,220,220,1)",
-            pointColor: "rgba(220,220,220,1)",
-            pointStrokeColor: "#fff",
-            pointHighlightFill: "#fff",
-            pointHighlightStroke: "rgba(220,220,220,1)",
-            data: temperature
-          },
-          {
-            label: "Moisture (%)",
-            fillColor: "rgba(151,187,205,0.2)",
-            strokeColor: "rgba(151,187,205,1)",
-            pointColor: "rgba(151,187,205,1)",
-            pointStrokeColor: "#fff",
-            pointHighlightFill: "#fff",
-            pointHighlightStroke: "rgba(151,187,205,1)",
-            data: moisture
-          }
-        ]
-      });
+    function buildChart(id, labels, values, units) {
+        // Use Chart.js to build a chart with humidity and temperature.
+        var ctx = $(id).get(0).getContext('2d');
+        var chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: units,
+                        data: values,
+                        fill: false,
+                        //borderColor: rgb(75, 192, 192),
+                        lineTension: 0.1}
+                        ]},
+                options: {}
+        });
     }
 
     // JQuery ready function will be called once all the assets on the page (like
@@ -74,12 +85,14 @@
       // Loop through each sensor and call the buildChart function above
       // to generate its chart.
       {% for sensor in config.MODEL.get_sensors() %}
-        {% set moisture = config.MODEL.get_recent_readings(sensor.name + ' Moisture') %}
-        {% set temperature = config.MODEL.get_recent_readings(sensor.name + ' Temperature') %}
+        {% set value = config.MODEL.get_recent_readings(sensor.name) %}
+        {% set units = sensor.units %}
+
+
         buildChart('#chart_{{ sensor.id }}',
-                      ["{{ moisture|reverse|join('\",\"', attribute='time')|safe }}"],
-                      [{{ moisture|reverse|join(',', attribute='value') }}],
-                      [{{ temperature|reverse|join(',', attribute='value') }}]);
+                      ["{{ value|reverse|join('\",\"', attribute='time')|safe }}"],
+                      [{{ value|reverse|join(',', attribute='value') }}],
+                      units);
 
       {% endfor %}
     });
