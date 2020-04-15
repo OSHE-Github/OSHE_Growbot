@@ -14,13 +14,14 @@ import Adafruit_ADS1x15
 # setup I2C bus
 i2c = busio.I2C(board.SCL, board.SDA)
 # Create an ADS1115 ADC (16-bit) instance.
-ads = Adafruit_ADS1x15.ADS1115()
-GAIN = 1
+ads = Adafruit_ADS1x15.ADS1115(i2c)
+ads.gain = 1
+#GAIN = 1
 
 
 while True:
     #get sensor value
-    sensorValue = ads.read_adc(2, gain=GAIN)
+    sensorValue = AnalogIn(ads, ADS.P3)
     #print("Sensor Val: " + str(sensorValue))
     #Convert the analog reading (which goes from 0 - 1023) to a voltage (0 - 50V):
     #voltage0 = sensorValue * (4.096 / 32768.0) * 10.1
