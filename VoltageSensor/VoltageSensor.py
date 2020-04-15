@@ -21,7 +21,7 @@ ads.start_adc(2, gain=GAIN)
 while True:
     #get sensor value
     sensorValue = ads.get_last_result()
-
+    print("Sensor Val: " + str(senValue))
     #Convert the analog reading (which goes from 0 - 1023) to a voltage (0 - 50V):
     voltage = sensorValue * (4.096 / 32768.0) * 10
 
