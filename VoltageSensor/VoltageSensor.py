@@ -26,5 +26,6 @@ while True:
     voltage0 = sensorValue * (4.096 / 65536.0)
     voltage = voltage0 / (100000/(910000+100000))
 
+    print("Voltage ADC: " + str(voltage0))
     print("Voltage: " + str(voltage))
     time.sleep(1)
