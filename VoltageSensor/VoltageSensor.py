@@ -9,12 +9,12 @@
 import board
 import busio
 import time
-import Adafruit_ADS1x15
+import Adafruit_ADS1x15 as ADS
 
 # setup I2C bus
 i2c = busio.I2C(board.SCL, board.SDA)
 # Create an ADS1115 ADC (16-bit) instance.
-ads = Adafruit_ADS1x15.ADS1115(i2c)
+ads = ADS.ADS1115(i2c)
 ads.gain = 1
 #GAIN = 1
 
