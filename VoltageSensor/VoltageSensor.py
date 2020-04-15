@@ -8,6 +8,7 @@
 # import the raspberry pi pin libraries and
 import board
 import busio
+import time
 import Adafruit_ADS1x15
 
 # setup I2C bus
@@ -17,8 +18,12 @@ ads = Adafruit_ADS1x15.ADS1115()
 GAIN = 1
 ads.start_adc(2, gain=GAIN)
 
-#get sensor value
-sensorValue = ads.get_last_result()
+while True:
+    #get sensor value
+    sensorValue = ads.get_last_result()
 
-#Convert the analog reading (which goes from 0 - 1023) to a voltage (0 - 50V):
-voltage = sensorValue * (5.0 / 1024.0) * 10
+    #Convert the analog reading (which goes from 0 - 1023) to a voltage (0 - 50V):
+    voltage = sensorValue * (5.0 / 1024.0) * 10
+
+    print("Voltage: " + str(voltage))
+    time.sleep(1)
