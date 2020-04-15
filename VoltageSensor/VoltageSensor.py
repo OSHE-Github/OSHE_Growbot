@@ -18,7 +18,7 @@ GAIN = 1
 
 while True:
     #get sensor value
-    sensorValue = adc.read_adc(4, gain=GAIN)
+    sensorValue = adc.read_adc(3, gain=GAIN)
     #print("Sensor Val: " + str(sensorValue))
     #Convert the analog reading (which goes from 0 - 1023) to a voltage (0 - 50V):
     voltage = sensorValue * (4.096 / 32768.0) * 10.1
