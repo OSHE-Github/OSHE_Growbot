@@ -9,6 +9,6 @@ while True:
     for i in range(4):
         values[i] = adc.read_adc(i, gain=GAIN)
 
-    print('sensor 1: ' + values[0] + 'sensor 2: ' + values[1])
+    print('sensor 1: ' + values[0] + '    sensor 2: ' + values[1])
 
     time.sleep(0.5)
