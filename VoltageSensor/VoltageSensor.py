@@ -11,7 +11,7 @@ import time
 import Adafruit_ADS1x15 as ADS
 
 # Create an ADS1115 ADC (16-bit) instance.
-ads = ADS.ADS1115()
+adc = ADS.ADS1115()
 GAIN = 1
 #GAIN = 1
 
