@@ -1,2 +1,0 @@
-def calibrate():
-    print("Calibrating")
