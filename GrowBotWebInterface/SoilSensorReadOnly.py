@@ -1,3 +1,10 @@
+#Wilson Holmes
+#Open Source Hardware Enterprise
+#Growbot
+#Created: 2020/04/??
+#Last Modified: 2020/04/15
+#Description: BME280 sensor. Will print and store the humidity, temperature, pressure, and calulated altitude from the presure in the database on a timed interval. Because the altitude measurement is dependent on the pressure it is not very accurate.
+
 import time
 import datetime
 
@@ -13,7 +20,7 @@ from adafruit_seesaw.seesaw import Seesaw
 # file is very simple and just calls function on the model access layer object.
 data = model.SensorData()
 
-# Define which sensors we expect to be connected to the Pi.
+# Define which sensors we expect to be connected to the Pi and their units.
 sensor1Name = 'SeeSaw Soil Temperature'
 sensor1Units = '°C'
 sensor2Name = 'SeeSaw Soil Moisture'

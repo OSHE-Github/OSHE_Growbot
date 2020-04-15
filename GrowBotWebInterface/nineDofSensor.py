@@ -1,5 +1,9 @@
-# Simple demo of the LSM9DS1 accelerometer, magnetometer, gyroscope.
-# Will print the acceleration, magnetometer, and gyroscope values every second.
+#Wilson Holmes
+#Open Source Hardware Enterprise
+#Growbot
+#Created: 2020/04/??
+#Last Modified: 2020/04/15
+#Description: LSM9DS1 accelerometer, magnetometer, gyroscope. Will print and store the acceleration, magnetometer, and gyroscope values on a timed interval into the databse.
 
 import time
 import datetime
@@ -15,7 +19,7 @@ import adafruit_lsm9ds1
 # file is very simple and just calls function on the model access layer object.
 data = model.SensorData()
 
-# Define which sensors we expect to be connected to the Pi.
+# Define which sensors we expect to be connected to the Pi and their units.
 sensor1Name = 'LSM9DS1 X-Accelerometer'
 sensor1Units = 'm/s^2'
 sensor2Name = 'LSM9DS1 Y-Accelerometer'

@@ -1,3 +1,9 @@
+#Wilson Holmes
+#Open Source Hardware Enterprise
+#Growbot
+#Created: 2020/04/??
+#Last Modified: 2020/04/15
+#Description: Adafruit_seesaw sensor. Will print and store the capacatance and temperature of the soil in the database on a timed interval.
 import time
 import datetime
 
@@ -12,7 +18,7 @@ import adafruit_bme280
 # file is very simple and just calls function on the model access layer object.
 data = model.SensorData()
 
-# Define which sensors we expect to be connected to the Pi.
+# Define which sensors we expect to be connected to the Pi and their units.
 sensor1Name = 'BME280 Temperature'
 sensor1Units = '°C'
 sensor2Name = 'BME280 Humidity'

@@ -1,4 +1,11 @@
-import os
+#Wilson Holmes
+#Open Source Hardware Enterprise
+#Growbot
+#Created: 2020/02/23
+#Last Modified: 2020/04/15
+#Description: Flask app that is the front end of the Browbot Web UI
+
+
 from flask import Flask, render_template, flash, redirect, url_for, session, request, logging, send_from_directory, jsonify, make_response, flash
 from wtforms import Form, StringField, TextAreaField, PasswordField, validators
 from odrive import calibrate as calibrateODRIVE
@@ -76,17 +83,6 @@ def favicon():
 def calibrate():
     calibrateODRIVE()
     return render_template('calibrate.html')
-
-
-# Test of graphing dummy data to the webiste from a sqlite3 database
-@app.route("/data.json")
-def data():
-    connection = sqlite3.connect("db.sqlite")
-    cursor = connection.cursor()
-    cursor.execute("SELECT 1000*timestamp, measure from measures")
-    results = cursor.fetchall()
-    print(results)
-    return json.dumps(results)
 
 
 if __name__ == '__main__':
