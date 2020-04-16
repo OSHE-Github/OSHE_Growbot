@@ -63,6 +63,12 @@ def video_feed():
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
 
+# GrowCam page, maybe make this openCV sometime in the future for pest identification
+@app.route('/growcam')
+def index():
+    return render_template('growcam.html')
+
+
 # # Page with a simple calculator done as a test of how to parse input and output
 # # from the website to a python variable
 # @app.route('/calculator', methods=['GET', 'POST'])
