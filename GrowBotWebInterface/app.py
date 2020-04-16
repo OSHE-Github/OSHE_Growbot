@@ -57,7 +57,7 @@ scheduler = BackgroundScheduler()
 scheduler.start()
 scheduler.add_job(
     func=db2csv,
-    trigger=IntervalTrigger(hours=24),
+    trigger=IntervalTrigger(seconds=24),
     id='db2csv_job',
     name='clear and save db to csv every day',
     replace_existing=True)
