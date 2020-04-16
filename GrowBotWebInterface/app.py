@@ -41,38 +41,26 @@ admin.add_view(ModelView(model.Sensor))
 admin.add_view(ModelView(model.SensorReading))
 
 
-# # Make scheduler object and start it up
-# sched = Scheduler()
-# sched.start()
-#
-#
-# def db2csv():
-#     conn = sqlite3.connect('growbot.db')
-#     curs = conn.cursor()
-#     curs.execute("SELECT * FROM ALL")
-#     m_dict = list(curs.fetchall())
-#
-#     with open("growbot.csv", "wb") as f:
-#         w = csv.DictWriter(f, m_dict[0].keys())
-#         w.writerow(dict((fn,fn) for fn in m_dict[0].keys()))
-#         w.writerows(m_dict)
-#
-#
-# #add your job here
-# sched.add_interval_job(db2csv, minutes=1)
+def db2csv():
+    conn = sqlite3.connect('growbot.db')
+    curs = conn.cursor()
+    curs.execute("SELECT * FROM ALL")
+    m_dict = list(curs.fetchall())
 
+    with open("growbot.csv", "wb") as f:
+        w = csv.DictWriter(f, m_dict[0].keys())
+        w.writerow(dict((fn,fn) for fn in m_dict[0].keys()))
+        w.writerows(m_dict)
 
-def print_time():
-  print (time.strftime('%H:%M:%S'))
 
 # create schedule for printing time
 scheduler = BackgroundScheduler()
 scheduler.start()
 scheduler.add_job(
-    func=print_time,
+    func=db2csv,
     trigger=IntervalTrigger(seconds=2),
-    id='printing_time_job',
-    name='Print time every 2 seconds',
+    id='db2csv_job',
+    name='clear and save db to csv every day',
     replace_existing=True)
 # Shut down the scheduler when exiting the app
 atexit.register(lambda: scheduler.shutdown())
