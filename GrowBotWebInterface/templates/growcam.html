@@ -1,7 +1,9 @@
 {% extends 'layout.html' %}
 
 {% block body %}
+    <div class="text-center">
+        <h1>Growbot Video Feed</h1>
+        <h3><img src="{{ url_for('video_feed') }}" width="50%"></h3>
+    </div>
     <br>
-    <h1>Growbot Video Feed</h1>
-    <h3><img src="{{ url_for('video_feed') }}" width="50%"></h3>
 {% endblock %}
