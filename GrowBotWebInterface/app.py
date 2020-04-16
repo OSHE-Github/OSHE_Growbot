@@ -13,6 +13,7 @@ import sqlite3
 import csv
 import atexit
 from glob import glob; from os.path import expanduser
+import pandas as pd
 # Flask
 from flask import Flask, render_template, flash, redirect, url_for, session, request, logging, send_from_directory, jsonify, make_response, flash, Response
 # WTForms
