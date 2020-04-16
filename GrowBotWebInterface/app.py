@@ -69,7 +69,7 @@ scheduler = BackgroundScheduler()
 scheduler.start()
 scheduler.add_cron_job(
     db2csv,
-    hour=1, minute=15 second=0,
+    hour=1, minute=15, second=0,
     id='db2csv_job',
     name='clear and save db to csv every day',
     replace_existing=True)
