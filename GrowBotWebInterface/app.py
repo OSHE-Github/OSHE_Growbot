@@ -7,7 +7,7 @@
 
 # These imports are in the standard python3 library quiver, did not need to install these ones through pip
 import os
-from time import time
+import time   # might need to "from time import time" instead
 from random import random
 import sqlite3
 import csv
