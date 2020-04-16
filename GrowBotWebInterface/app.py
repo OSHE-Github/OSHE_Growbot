@@ -12,6 +12,7 @@ from random import random
 import sqlite3
 import csv
 import atexit
+from glob import glob; from os.path import expanduser
 # Flask
 from flask import Flask, render_template, flash, redirect, url_for, session, request, logging, send_from_directory, jsonify, make_response, flash, Response
 # WTForms
@@ -42,15 +43,12 @@ admin.add_view(ModelView(model.SensorReading))
 
 
 def db2csv():
-    conn = sqlite3.connect('growbot.db')
-    curs = conn.cursor()
-    curs.execute("select * from sensor;")
-    m_dict = list(curs.fetchall())
-
-    with open("growbot.csv", "wb") as f:
-        w = csv.DictWriter(f, m_dict[0].keys())
-        w.writerow(dict((fn,fn) for fn in m_dict[0].keys()))
-        w.writerows(m_dict)
+    conn = sqlite3.connect(glob(expanduser('growbot.db'))[0])
+    cursor = conn.cursor()
+    sensors = pd.read_sql('SELECT * FROM sensor' ,conn)
+    sensorreadings = pd.read_sql('SELECT * FROM sensorreading' ,conn)
+    sensors.to_csv('sensors.csv', index=False)
+    sensorreadings.to_csv('sensorreadings.csv', index=False)
 
 
 # create schedule for printing time
