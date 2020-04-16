@@ -41,7 +41,7 @@ class Camera(object):
 
             # let camera warm up
             camera.start_preview()
-            time.sleep(2)
+            time.sleep(0.5)
 
             stream = io.BytesIO()
             for foo in camera.capture_continuous(stream, 'jpeg',
