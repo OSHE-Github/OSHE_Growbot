@@ -66,11 +66,8 @@ def db2csv():
 
 # create schedule for printing time
 scheduler = BackgroundScheduler()
+scheduler.add_job(db2csv, 'cron', hour='1', minute='43', second='0',id='db2csv_job',name='clear and save db to csv every day',replace_existing=True)
 scheduler.start()
-scheduler.add_job(db2csv, 'cron', hour='1', minute='41', second='0',
-    id='db2csv_job',
-    name='clear and save db to csv every day',
-    replace_existing=True)
 # Shut down the scheduler when exiting the app
 atexit.register(lambda: scheduler.shutdown())
 
