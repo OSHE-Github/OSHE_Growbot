@@ -11,6 +11,7 @@ from time import time
 from random import random
 import sqlite3
 import csv
+import atexit
 # Flask
 from flask import Flask, render_template, flash, redirect, url_for, session, request, logging, send_from_directory, jsonify, make_response, flash, Response
 # WTForms
@@ -19,7 +20,8 @@ from wtforms import Form, StringField, TextAreaField, PasswordField, validators
 from flask_admin import Admin
 from flask_admin.contrib.peewee import ModelView
 # APScheduler
-from apscheduler.scheduler import Scheduler
+from apscheduler.schedulers.background import BackgroundScheduler
+from apscheduler.triggers.interval import IntervalTrigger
 # Raspberry Pi camera module (requires picamera package)
 from camera_pi import Camera
 # model.py file that defines the databse and its behavior using the peewee orm
@@ -39,25 +41,41 @@ admin.add_view(ModelView(model.Sensor))
 admin.add_view(ModelView(model.SensorReading))
 
 
-# Make scheduler object and start it up
-sched = Scheduler()
-sched.start()
+# # Make scheduler object and start it up
+# sched = Scheduler()
+# sched.start()
+#
+#
+# def db2csv():
+#     conn = sqlite3.connect('growbot.db')
+#     curs = conn.cursor()
+#     curs.execute("SELECT * FROM ALL")
+#     m_dict = list(curs.fetchall())
+#
+#     with open("growbot.csv", "wb") as f:
+#         w = csv.DictWriter(f, m_dict[0].keys())
+#         w.writerow(dict((fn,fn) for fn in m_dict[0].keys()))
+#         w.writerows(m_dict)
+#
+#
+# #add your job here
+# sched.add_interval_job(db2csv, minutes=1)
 
 
-def db2csv():
-    conn = sqlite3.connect('growbot.db')
-    curs = conn.cursor()
-    curs.execute("SELECT * FROM ALL")
-    m_dict = list(curs.fetchall())
+def print_time():
+  print time.strftime('%H:%M:%S')
 
-    with open("growbot.csv", "wb") as f:
-        w = csv.DictWriter(f, m_dict[0].keys())
-        w.writerow(dict((fn,fn) for fn in m_dict[0].keys()))
-        w.writerows(m_dict)
-
-
-#add your job here
-sched.add_interval_job(db2csv, minutes=1)
+# create schedule for printing time
+scheduler = BackgroundScheduler()
+scheduler.start()
+scheduler.add_job(
+    func=print_time,
+    trigger=IntervalTrigger(seconds=2),
+    id='printing_time_job',
+    name='Print time every 2 seconds',
+    replace_existing=True)
+# Shut down the scheduler when exiting the app
+atexit.register(lambda: scheduler.shutdown())
 
 
 # Home Page
