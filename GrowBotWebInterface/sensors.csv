@@ -1,0 +1,20 @@
+id,name,units
+1,SeeSaw Soil Temperature,°C
+2,SeeSaw Soil Moisture,%
+3,BME280 Temperature,°C
+4,BME280 Humidity,%
+5,BME280 Pressure,hPa
+6,BME280 Altitude,Meters
+7,LSM9DS1 X-Accelerometer,m/s^2
+8,LSM9DS1 Y-Accelerometer,m/s^2
+9,LSM9DS1 Z-Accelerometer,m/s^2
+10,LSM9DS1 X-Magnetometer,Gauss
+11,LSM9DS1 Y-Magnetometer,Gauss
+12,LSM9DS1 Z-Magnetometer,Gauss
+13,LSM9DS1 X-Gyroscope,degrees/sec
+14,LSM9DS1 Y-Gyroscope,degrees/sec
+15,LSM9DS1 Z-Gyroscope,degrees/sec
+18,LSM9DS1 X-Accelerometer Average,Average m/s^2
+19,LSM9DS1 Y-Accelerometer Average,Average m/s^2
+20,LSM9DS1 Z-Accelerometer Average,Average m/s^2
+21,LSM9DS1 Temperature,*Might not be °C
