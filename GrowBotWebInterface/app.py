@@ -22,9 +22,8 @@ from wtforms import Form, StringField, TextAreaField, PasswordField, validators
 from flask_admin import Admin
 from flask_admin.contrib.peewee import ModelView
 # APScheduler
-# from apscheduler.schedulers.background import BackgroundScheduler
-from apscheduler.schedulers import Scheduler
-# from apscheduler.triggers.interval import IntervalTrigger
+from apscheduler.schedulers.background import BackgroundScheduler
+from apscheduler.triggers.calendarinterval import CalendarIntervalTrigger
 # Raspberry Pi camera module (requires picamera package)
 from camera_pi import Camera
 # model.py file that defines the databse and its behavior using the peewee orm
@@ -66,11 +65,11 @@ def db2csv():
 
 
 # create schedule for printing time
-scheduler = Scheduler()# BackgroundScheduler()
+scheduler = BackgroundScheduler()
 scheduler.start()
-scheduler.add_cron_job(
-    db2csv,
-    hour=1, minute=18, second=0,
+scheduler.add_job(
+    func=db2csv,
+    trigger=CalendarIntervalTrigger(hour=1, minute=24, seconds=0),
     id='db2csv_job',
     name='clear and save db to csv every day',
     replace_existing=True)
