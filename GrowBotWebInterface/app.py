@@ -65,7 +65,7 @@ def video_feed():
 
 # GrowCam page, maybe make this openCV sometime in the future for pest identification
 @app.route('/growcam')
-def index():
+def growcam():
     return render_template('growcam.html')
 
 
