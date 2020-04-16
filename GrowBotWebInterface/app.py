@@ -5,20 +5,26 @@
 #Last Modified: 2020/04/15
 #Description: Flask app that is the front end of the Browbot Web UI
 
+# These imports are in the standard python3 library quiver, did not need to install these ones through pip
 import os
-from flask import Flask, render_template, flash, redirect, url_for, session, request, logging, send_from_directory, jsonify, make_response, flash, Response
-from wtforms import Form, StringField, TextAreaField, PasswordField, validators
 from time import time
 from random import random
 import sqlite3
+import csv
+# Flask
+from flask import Flask, render_template, flash, redirect, url_for, session, request, logging, send_from_directory, jsonify, make_response, flash, Response
+# WTForms
+from wtforms import Form, StringField, TextAreaField, PasswordField, validators
+# Flask-Admin
 from flask_admin import Admin
 from flask_admin.contrib.peewee import ModelView
-
+# APScheduler
+from apscheduler.scheduler import Scheduler
 # Raspberry Pi camera module (requires picamera package)
 from camera_pi import Camera
-
-
+# model.py file that defines the databse and its behavior using the peewee orm
 import model
+
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'OSHE'
@@ -31,6 +37,27 @@ app.config['MODEL'] = model.SensorData()
 admin = Admin(app, name='Growbot Sensors', template_mode='bootstrap3', url='/admin')
 admin.add_view(ModelView(model.Sensor))
 admin.add_view(ModelView(model.SensorReading))
+
+
+# Make scheduler object and start it up
+sched = Scheduler()
+sched.start()
+
+
+def db2csv():
+    conn = sqlite3.connect('growbot.db')
+    curs = conn.cursor()
+    curs.execute("SELECT * FROM ALL")
+    m_dict = list(curs.fetchall())
+
+    with open("growbot.csv", "wb") as f:
+        w = csv.DictWriter(f, m_dict[0].keys())
+        w.writerow(dict((fn,fn) for fn in m_dict[0].keys()))
+        w.writerows(m_dict)
+
+
+#add your job here
+sched.add_interval_job(db2csv, minutes=1)
 
 
 # Home Page
