@@ -23,7 +23,7 @@ from flask_admin import Admin
 from flask_admin.contrib.peewee import ModelView
 # APScheduler
 from apscheduler.schedulers.background import BackgroundScheduler
-from apscheduler.triggers.interval import CalendarIntervalTrigger
+from apscheduler.triggers import DateTrigger
 # Raspberry Pi camera module (requires picamera package)
 from camera_pi import Camera
 # model.py file that defines the databse and its behavior using the peewee orm
@@ -69,7 +69,7 @@ scheduler = BackgroundScheduler()
 scheduler.start()
 scheduler.add_job(
     func=db2csv,
-    trigger=CalendarIntervalTrigger(hour=1, minute=24, seconds=0),
+    trigger=DateTrigger(hour=1, minute=29, seconds=0),
     id='db2csv_job',
     name='clear and save db to csv every day',
     replace_existing=True)
