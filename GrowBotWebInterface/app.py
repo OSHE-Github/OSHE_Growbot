@@ -5,14 +5,17 @@
 #Last Modified: 2020/04/15
 #Description: Flask app that is the front end of the Browbot Web UI
 
-
-from flask import Flask, render_template, flash, redirect, url_for, session, request, logging, send_from_directory, jsonify, make_response, flash
+import os
+from flask import Flask, render_template, flash, redirect, url_for, session, request, logging, send_from_directory, jsonify, make_response, flash, Response
 from wtforms import Form, StringField, TextAreaField, PasswordField, validators
 from time import time
 from random import random
 import sqlite3
 from flask_admin import Admin
 from flask_admin.contrib.peewee import ModelView
+
+# Raspberry Pi camera module (requires picamera package)
+from camera_pi import Camera
 
 
 import model
@@ -45,6 +48,21 @@ def about():
     return render_template('about.html')
 
 
+def gen(camera):
+"""Video streaming generator function."""
+while True:
+    frame = camera.get_frame()
+    yield (b'--frame\r\n'
+           b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+
+
+@app.route('/videofeed')
+def video_feed():
+    """Video streaming route. Put this in the src attribute of an img tag."""
+    return Response(gen(Camera()),
+                    mimetype='multipart/x-mixed-replace; boundary=frame')
+
+
 # # Page with a simple calculator done as a test of how to parse input and output
 # # from the website to a python variable
 # @app.route('/calculator', methods=['GET', 'POST'])
@@ -55,17 +73,6 @@ def about():
 #         expression = request.form.get('expression')
 #         result = eval(expression)
 #         return render_template('calculator.html', result = result)
-
-
-@app.route('/', methods=['GET', 'POST'])
-def test():
-    if request.method == 'POST':
-        name = request.form['NAME']
-        i = request.form['I']
-        result = hellonameloop(name, i)
-        return render_template('test.html', result = result)
-    else:
-        return render_template('test.html')
 
 
 # Adds the OSHE logo icon to the browser tab
@@ -82,4 +89,4 @@ def calibrate():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', debug=True)
+    app.run(host='0.0.0.0', debug=True, threaded=True)
