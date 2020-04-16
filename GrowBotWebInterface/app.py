@@ -43,13 +43,25 @@ admin.add_view(ModelView(model.Sensor))
 admin.add_view(ModelView(model.SensorReading))
 
 
+# Function to save data to csv every day and clear database
 def db2csv():
+    # Connect to database and make cursor
     conn = sqlite3.connect(glob(expanduser('growbot.db'))[0])
     cursor = conn.cursor()
+
+    # Select and save the tables in the database to csv files
     sensors = pd.read_sql('SELECT * FROM sensor' ,conn)
     sensorreadings = pd.read_sql('SELECT * FROM sensorreading' ,conn)
     sensors.to_csv('sensors.csv', index=False)
     sensorreadings.to_csv('sensorreadings.csv', index=False)
+
+    # Clear the sensorreadings database
+    cursor.execute('DELETE FROM sensorreading;')
+    print("databse should be shrunk now")
+    #commit the changes to db
+    conn.commit()
+    #close the connection
+    conn.close()
 
 
 # create schedule for printing time
