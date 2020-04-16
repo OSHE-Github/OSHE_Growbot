@@ -67,9 +67,9 @@ def db2csv():
 # create schedule for printing time
 scheduler = BackgroundScheduler()
 scheduler.start()
-scheduler.add_job(
-    func=db2csv,
-    trigger=IntervalTrigger(seconds=24),
+scheduler.add_cron_job(
+    db2csv,
+    day=*, seconds=10,
     id='db2csv_job',
     name='clear and save db to csv every day',
     replace_existing=True)
