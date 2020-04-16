@@ -63,7 +63,7 @@ admin.add_view(ModelView(model.SensorReading))
 
 
 def print_time():
-  print time.strftime('%H:%M:%S')
+  print (time.strftime('%H:%M:%S'))
 
 # create schedule for printing time
 scheduler = BackgroundScheduler()
