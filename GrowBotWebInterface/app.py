@@ -23,7 +23,7 @@ from flask_admin import Admin
 from flask_admin.contrib.peewee import ModelView
 # APScheduler
 # from apscheduler.schedulers.background import BackgroundScheduler
-from apscheduler.scheduler import Scheduler
+from apscheduler.schedulers import Scheduler
 # from apscheduler.triggers.interval import IntervalTrigger
 # Raspberry Pi camera module (requires picamera package)
 from camera_pi import Camera
