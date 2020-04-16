@@ -12,7 +12,7 @@ import math
 
 # Set Up
 print("finding an odrive...")
-my_drive = odrive.find_any("serial:/dev/ttyS0")
+my_drive = odrive.find_any()
 my_drive.axis0.requested_state = AXIS_STATE_FULL_CALIBRATION_SEQUENCE
 while my_drive.axis0.current_state != AXIS_STATE_IDLE:
     time.sleep(0.1)
