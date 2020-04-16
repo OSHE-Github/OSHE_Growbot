@@ -44,7 +44,7 @@ admin.add_view(ModelView(model.SensorReading))
 def db2csv():
     conn = sqlite3.connect('growbot.db')
     curs = conn.cursor()
-    curs.execute("select * from all;")
+    curs.execute("select * from sensor;")
     m_dict = list(curs.fetchall())
 
     with open("growbot.csv", "wb") as f:
