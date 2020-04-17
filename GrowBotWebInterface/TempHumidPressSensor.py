@@ -3,7 +3,8 @@
 #Growbot
 #Created: 2020/04/??
 #Last Modified: 2020/04/15
-#Description: Adafruit_seesaw sensor. Will print and store the capacatance and temperature of the soil in the database on a timed interval.
+#Description: BME280 sensor. Will print and store the humidity, temperature, pressure, and calulated altitude from the presure in the database on a timed interval. Because the altitude measurement is dependent on the pressure it is not very accurate.
+
 import time
 import datetime
 
