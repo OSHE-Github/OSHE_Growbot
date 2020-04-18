@@ -13,6 +13,10 @@ SoftwareSerial odrive_serial(8, 9); //RX (ODrive TX), TX (ODrive RX)
 ODriveArduino odrive(odrive_serial);
 
 void setup() {
+  // position init
+  float pos_m0 = 0;
+  float pos_m1 = 0;
+
   // ODrive uses 115200 baud
   odrive_serial.begin(115200);
 
@@ -37,6 +41,7 @@ void setup() {
   Serial.println("Send the character 's' to exectue test move");
   Serial.println("Send the character 'b' to read bus voltage");
   Serial.println("Send the character 'p' to read motor positions in a 10s loop");
+  Serial.println("Send the character 'c' to run continuously");
 }
 
 void loop() {
@@ -90,6 +95,18 @@ void loop() {
           Serial << odrive.readFloat() << '\t';
         }
         Serial << '\n';
+      }
+    }
+
+    // Circular test
+    if (c == 'c') {
+      Serial.println("Executing test move");
+      void loop() {
+        pos_m0 = pos_m0 + 100;
+        pos_m1 = pos_m0 + 100;
+        odrive.SetPosition(0, pos_m0);
+        odrive.SetPosition(1, pos_m1);
+        delay(5);
       }
     }
   }
