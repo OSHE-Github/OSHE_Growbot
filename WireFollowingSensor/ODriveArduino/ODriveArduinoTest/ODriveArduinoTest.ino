@@ -101,7 +101,7 @@ void loop() {
     // Circular test
     if (c == 'c') {
       Serial.println("Executing test move");
-      void loop() {
+      while (1) {
         pos_m0 = pos_m0 + 100;
         pos_m1 = pos_m0 + 100;
         odrive.SetPosition(0, pos_m0);
