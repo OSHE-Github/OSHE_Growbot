@@ -46,7 +46,7 @@ try:
 
         # Add the sensor readings to the database.
         data.add_reading(time=reading_time, name='{0}'.format(sensor1Name), value=temp)
-        data.add_reading(time=reading_time, name='{0}'.format(sensor2Name), value=touch)
+        data.add_reading(time=reading_time, name='{0}'.format(sensor2Name), value=moist)
 
         # Wait 2 seconds and repeat. set this to something more reasonable once you are done testing. The Website is currently set up to show 120 points on each graph, so if you are storing a sensor value every 2 minutes (120 seconds) into the database, then your graphs will show you a view of the last 4 hours.
         time.sleep(2.0)
