@@ -81,7 +81,7 @@ sensor = adafruit_lsm9ds1.LSM9DS1_I2C(i2c)
 try:
     while True:
 
-        timeout = time.time() + 1#60*2   # 2 minutes from now
+        timeout = time.time() + 2#60*2   # 2 minutes from now
         loops = 0   # loop counter
 
         # Initalizes the max values of the min and max values and the begining sum values
