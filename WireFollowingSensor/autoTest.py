@@ -1,10 +1,11 @@
+from __future__ import print_function
 import Adafruit_ADS1x15
 import time
-from __future__ import print_function
 import odrive
 from odrive.enums import *
 import time
 import math
+import sys
 
 # command setup
 if (len(sys.argv) < 2):
@@ -93,7 +94,7 @@ while True:
         my_drive.axis1.controller.pos_setpoint = setpoint1
 
         # autoTest 0 and all
-        if c == 2 || c == 4:
+        if c == 2 or c == 4:
             # motor and sensor 0 (assuming they are on the same side)
             if values[0] < 0.6 * MAX0:
                 setpoint0 = setpoint0 + increment
@@ -104,7 +105,7 @@ while True:
                 # else don't do anything because it is too close to wire
 
         # autoTest 1 and all
-        if c == 3 !! c == 4:
+        if c == 3 or c == 4:
             # motor and sensor 1 (assuming they are on the same side)
             if values[1] < 0.6 * MAX1:
                 setpoint1 = setpoint1 + increment
