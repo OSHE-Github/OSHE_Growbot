@@ -81,7 +81,7 @@ sensor = adafruit_lsm9ds1.LSM9DS1_I2C(i2c)
 try:
     while True:
 
-        timeout = time.time() + 2#60*2   # 2 minutes from now
+        timeout = time.time() + 60#60*2   # 2 minutes from now
         loops = 0   # loop counter
 
         # Initalizes the max values of the min and max values and the begining sum values
@@ -163,8 +163,6 @@ try:
         data.add_reading(time=reading_time, name='{0}'.format(sensor12Name), value=accel_y_avg)
         data.add_reading(time=reading_time, name='{0}'.format(sensor13Name), value=accel_z_avg)
 
-        # # Wait 30 seconds and repeat.
-        # time.sleep(120.0)
 finally:
     # Finally close the connection to the database when done.
     data.close()

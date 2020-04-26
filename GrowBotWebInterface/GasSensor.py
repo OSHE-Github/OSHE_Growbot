@@ -69,8 +69,8 @@ try:
         data.add_reading(time=reading_time, name='{0}'.format(sensor1Name), value=eCO2)
         data.add_reading(time=reading_time, name='{0}'.format(sensor2Name), value=TVOC)
 
-        # Wait 2 seconds and repeat. set this to something more reasonable once you are done testing. The Website is currently set up to show 120 points on each graph, so if you are storing a sensor value every 2 minutes (120 seconds) into the database, then your graphs will show you a view of the last 4 hours.
-        time.sleep(2.0)
+        # Wait 60 seconds and repeat. set this to something more reasonable once you are done testing. The Website is currently set up to show 120 points on each graph, so if you are storing a sensor value every 2 minutes (120 seconds) into the database, then your graphs will show you a view of the last 4 hours.
+        time.sleep(60.0)
 finally:
     # Finally close the connection to the database when done.
     data.close()

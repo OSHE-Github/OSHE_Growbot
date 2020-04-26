@@ -71,8 +71,8 @@ try:
         data.add_reading(time=reading_time, name='{0}'.format(sensor3Name), value=pressure)
         data.add_reading(time=reading_time, name='{0}'.format(sensor4Name), value=altitude)
 
-        # Wait 30 seconds and repeat.
-        time.sleep(2.0)
+        # Wait 60 seconds and repeat.
+        time.sleep(60)
 finally:
     # Finally close the connection to the database when done.
     data.close()

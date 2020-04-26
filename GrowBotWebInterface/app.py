@@ -2,12 +2,12 @@
 #Open Source Hardware Enterprise
 #Growbot
 #Created: 2020/02/23
-#Last Modified: 2020/04/15
+#Last Modified: 2020/04/20
 #Description: Flask app that is the front end of the Browbot Web UI
 
 # These imports are in the standard python3 library quiver, did not need to install these ones through pip
 import os
-import time   # might need to "from time import time" instead
+import time
 from random import random
 import sqlite3
 import csv
@@ -23,7 +23,6 @@ from flask_admin import Admin
 from flask_admin.contrib.peewee import ModelView
 # APScheduler
 from apscheduler.schedulers.background import BackgroundScheduler
-# from apscheduler.triggers.cron import CronTrigger
 # Raspberry Pi camera module (requires picamera package)
 from camera_pi import Camera
 # model.py file that defines the databse and its behavior using the peewee orm
@@ -57,14 +56,14 @@ def db2csv():
 
     # Clear the sensorreadings database
     cursor.execute('DELETE FROM sensorreading;')
-    print("databse should be shrunk now")
+    print("Databse should be cleared now, with last days readings in the .csv files")
     #commit the changes to db
     conn.commit()
     #close the connection
     conn.close()
 
 
-# create schedule for printing time
+# create schedule for exporting database to csv once every day at 1am
 scheduler = BackgroundScheduler()
 scheduler.add_job(db2csv, 'cron', hour='1', minute='0', second='0',id='db2csv_job',name='clear and save db to csv every day',replace_existing=True)
 scheduler.start()
