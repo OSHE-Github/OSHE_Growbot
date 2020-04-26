@@ -8,6 +8,7 @@
 # These imports are in the standard python3 library quiver, did not need to install these ones through pip
 import os
 import time
+import datetime
 from random import random
 import sqlite3
 import csv
@@ -53,6 +54,13 @@ def db2csv():
     sensorreadings = pd.read_sql('SELECT * FROM sensorreading' ,conn)
     sensors.to_csv('sensors.csv', index=False)
     sensorreadings.to_csv('sensorreadings.csv', index=False)
+
+    # Adds a timestamp to the filenames
+    reading_time = datetime.datetime.now()
+    sensors = reading_time.strftime('%m/%d/%Y') + 'sensors.csv'
+    sensorreadings = reading_time.strftime('%m/%d/%Y') + 'sensorreadings.csv'
+    os.rename('sensors.csv', sensors)
+    os.rename('sensorreadings.csv', sensorreadings)
 
     # Clear the sensorreadings database
     cursor.execute('DELETE FROM sensorreading;')
