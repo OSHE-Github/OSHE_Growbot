@@ -89,7 +89,7 @@ def db2csv():
 
 # create schedule for exporting database to csv once every day at 1am
 scheduler = BackgroundScheduler()
-scheduler.add_job(db2csv, 'cron', hour='1', minute='0', second='0',id='db2csv_job',name='clear and save db to csv every day',replace_existing=True)
+scheduler.add_job(db2csv, 'cron', hour='10', minute='23', second='0',id='db2csv_job',name='clear and save db to csv every day',replace_existing=True)
 scheduler.start()
 # Shut down the scheduler when exiting the app
 atexit.register(lambda: scheduler.shutdown())
