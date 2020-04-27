@@ -13,7 +13,7 @@ if (len(sys.argv) < 2):
           "           1: motorTest  \n" +
           "           2: autoTest 0 \n" +
           "           3: autoTest 1 \n" +
-          "           4: autoTest all")
+          "           4: autoTest all >")
     exit()
 c = int(sys.argv[1])
 

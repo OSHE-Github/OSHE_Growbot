@@ -8,12 +8,16 @@
 # These imports are in the standard python3 library quiver, did not need to install these ones through pip
 import os
 import time
+import datetime
 from random import random
 import sqlite3
 import csv
 import atexit
 from glob import glob; from os.path import expanduser
 import pandas as pd
+# For sending emails
+import smtplib
+from email.message import EmailMessage
 # Flask
 from flask import Flask, render_template, flash, redirect, url_for, session, request, logging, send_from_directory, jsonify, make_response, flash, Response
 # WTForms
@@ -42,7 +46,7 @@ admin.add_view(ModelView(model.Sensor))
 admin.add_view(ModelView(model.SensorReading))
 
 
-# Function to save data to csv every day and clear database
+# Function to save data to csv every day, clear database, and email data
 def db2csv():
     # Connect to database and make cursor
     conn = sqlite3.connect(glob(expanduser('growbot.db'))[0])
@@ -54,6 +58,13 @@ def db2csv():
     sensors.to_csv('sensors.csv', index=False)
     sensorreadings.to_csv('sensorreadings.csv', index=False)
 
+    # Adds a timestamp to the filenames
+    reading_time = datetime.datetime.now()
+    sensors = reading_time.strftime('%m/%d/%Y') + 'sensors.csv'
+    sensorreadings = reading_time.strftime('%m/%d/%Y') + 'sensorreadings.csv'
+    os.rename('sensors.csv', sensors)
+    os.rename('sensorreadings.csv', sensorreadings)
+
     # Clear the sensorreadings database
     cursor.execute('DELETE FROM sensorreading;')
     print("Databse should be cleared now, with last days readings in the .csv files")
@@ -61,6 +72,26 @@ def db2csv():
     conn.commit()
     #close the connection
     conn.close()
+
+    # Adds a timestamp to the filenames
+    reading_time = datetime.datetime.now()
+    readDate = reading_time.strftime('%m-%d-%Y')
+    sensors = readDate + '_sensors.csv'
+    sensorreadings = readDate + '_sensorreadings.csv'
+
+    # Sends an email with .csv attachment
+    msg = EmailMessage()
+    msg["From"] = 'OSHETesting@gmail.com'
+    msg["Subject"] = readDate + ' *.csv files'
+    msg["To"] = 'wilsonh@mtu.edu'   # Put your email here
+    msg.set_content("Here are the .csv files of the Growbot's databse tables from " + readDate)
+    msg.add_attachment(open('sensors.csv', "r").read(), filename=sensors)
+    msg.add_attachment(open('sensorreadings.csv', "r").read(), filename=sensorreadings)
+
+    # Sends the email
+    s = smtplib.SMTP_SSL('smtp.gmail.com')
+    s.login('OSHETesting@gmail.com', 'opensource')  # Email I created and used for testing. Have to turn on support for less secure apps.
+    s.send_message(msg)
 
 
 # create schedule for exporting database to csv once every day at 1am
