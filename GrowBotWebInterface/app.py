@@ -58,13 +58,6 @@ def db2csv():
     sensors.to_csv('sensors.csv', index=False)
     sensorreadings.to_csv('sensorreadings.csv', index=False)
 
-    # Adds a timestamp to the filenames
-    reading_time = datetime.datetime.now()
-    sensors = reading_time.strftime('%m/%d/%Y') + 'sensors.csv'
-    sensorreadings = reading_time.strftime('%m/%d/%Y') + 'sensorreadings.csv'
-    os.rename('sensors.csv', sensors)
-    os.rename('sensorreadings.csv', sensorreadings)
-
     # Clear the sensorreadings database
     cursor.execute('DELETE FROM sensorreading;')
     print("Databse should be cleared now, with last days readings in the .csv files")
