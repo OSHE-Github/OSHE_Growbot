@@ -22,6 +22,6 @@ msg.set_content("Here are the .csv files of the Growbot's databse tables from " 
 msg.add_attachment(open('04-26-2020_sensors.csv', "r").read(), filename="04-26-2020_sensors.csv")
 msg.add_attachment(open('04-26-2020_sensors.csv', "r").read(), filename="04-26-2020_sensorreadings.csv")
 
-s = smtplib.SMTP('smtp.sendgrid.net', 587)
+s = smtplib.SMTP_SSL('smtp.gmail.com')
 s.login('OSHETesting', 'opensource')
 s.send_message(msg)
