@@ -19,7 +19,6 @@ def print_line_center(message, screen):
     
     # Draw the text
     screen.addstr(middle_row, x_position, message)
-    screen.refresh()
 
 # Prints a line in the center of the specified screen on the bottom
 def print_line_bottom_center(message, screen, offset=0):
@@ -38,7 +37,6 @@ def print_line_bottom_center(message, screen, offset=0):
     
     # Draw the text
     screen.addstr(middle_row, x_position, message)
-    screen.refresh()
 
 # Prints the driving keys at the center of the specified screen
 def print_keys(key, screen):
@@ -46,31 +44,27 @@ def print_keys(key, screen):
     # Get the number of rows and columns so that text can be centered in the terminal window.
     num_rows, num_cols = screen.getmaxyx()
     
+    keys = "j k l ;"
+    
     if key == "j":
         
         arrows = "<       "
-        keys = "j k l ;"
         
     elif key == "k":
         
         arrows = "  ^     "
-        keys = "j k l ;"
         
     elif key == "l":
         
         arrows = "    v   "
-        keys = "j k l ;"
         
     elif key == ";":
         
         arrows = "      >"
-        keys = "j k l ;"
         
     else:
         
         arrows = "< ^ v >"
-        keys = "j k l ;"
-    
     
     # Calculate center row
     middle_row = int(num_rows / 2)
@@ -84,7 +78,6 @@ def print_keys(key, screen):
     # Draw the text
     screen.addstr(middle_row+1, x_position, arrows)
     screen.addstr(middle_row, x_position, keys)
-    screen.refresh()
 
 # Checks and resizes the window if the terminal has changed size
 def check_screen_resize(screen):
@@ -100,25 +93,27 @@ def main(main_screen):
     # Turns off the cursor
     curses.curs_set(0)
     
-    main_screen.border()
-    main_screen.refresh()
-    
+    # Initialize the screen the first time.before the loop starts
     key = "b"
+    main_screen.border()
     print_keys(key, main_screen)
     print_line_bottom_center("Use the above keys to drive the robot.", main_screen)
     print_line_bottom_center("Press q to exit.", main_screen, 1)
+    main_screen.refresh()
     
     while True:
         
-        key = chr(main_screen.getch())
-        print_keys(key, main_screen)
-        
         # check_screen_resize(main_screen)
+        main_screen.border()
+        key = chr(main_screen.getch())
+        main_screen.clear()
+        print_keys(key, main_screen)
         
         if key == "q":
             sys.exit()
         
         print_line_bottom_center("Use the above keys to drive the robot.", main_screen)
         print_line_bottom_center("Press q to exit.", main_screen, 1)
+        main_screen.refresh()
 
 wrapper(main)
