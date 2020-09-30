@@ -27,6 +27,24 @@ def main(main_screen):
         # Draw the text
         screen.addstr(middle_row, x_position, message)
         screen.refresh()
+        
+    # Prints a border on the specified window
+    def print_border(window):
+        
+        # Get the number of rows and columns so that text can be centered in the terminal window.
+        num_rows, num_cols = window.getmaxyx()
+        
+        horizontal_border = "─"*(num_cols-2)
+        vertical_border = "│"*(num_rows-2)
+        top_left_corner_border = "┌"
+        top_right_corner_border = "┐"
+        bottom_right_corner_border = "┘"
+        bottom_left_corner_border = "└"
+
+        # Draw the top row
+        top_border = top_left_corner_border+horizontal_border+top_right_corner_border
+        window.addstr(0, 0, top_border)
+        window.refresh()
 
     # Ask the user for input.
     print_center("Press any key...", main_screen)
