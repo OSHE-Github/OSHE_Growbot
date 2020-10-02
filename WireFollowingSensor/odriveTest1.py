@@ -7,6 +7,7 @@ from __future__ import print_function
 
 import odrive
 from odrive.enums import *
+import time
 
 # Find a connected ODrive (this will block until you connect one)
 print("finding an odrive...")
