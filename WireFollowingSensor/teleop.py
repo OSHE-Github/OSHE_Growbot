@@ -15,9 +15,6 @@ import sys
 print("finding an odrive...")
 my_drive = odrive.find_any()
 
-# Find an ODrive that is connected on the serial port /dev/ttyUSB0
-#my_drive = odrive.find_any("serial:/dev/ttyUSB0")
-
 # Calibrate motor and wait for it to finish
 print("starting calibration...")
 my_drive.axis0.requested_state = AXIS_STATE_FULL_CALIBRATION_SEQUENCE
@@ -46,6 +43,9 @@ for i in [1,2,3,4]:
 # circular continuous running
 my_drive.axis0.controller.config.setpoints_in_cpr = True
 my_drive.axis1.controller.config.setpoints_in_cpr = True
+
+# Save the config
+#my_drive.save_configuration()
 
 ###################### CURSES PART ##########################
 # Prints a line in the center of the specified screen
@@ -157,30 +157,33 @@ def main(main_screen):
         # check_screen_resize(main_screen)
         main_screen.border()
         key = chr(main_screen.getch())
+       
+        if key == "q":
+            sys.exit()
+        elif key == "j":
+            setpoint = setpoint + 100
+            my_drive.axis0.controller.pos_setpoint = setpoint
+            my_drive.axis1.controller.pos_setpoint = setpoint
+        elif key == "k":
+            setpoint = setpoint + 100
+            my_drive.axis0.controller.pos_setpoint = setpoint
+            my_drive.axis1.controller.pos_setpoint = -setpoint
+        elif key == "l":
+            setpoint = setpoint + 100
+            my_drive.axis0.controller.pos_setpoint = -setpoint
+            my_drive.axis1.controller.pos_setpoint = setpoint
+        elif key == ";":
+            setpoint = setpoint + 100
+            my_drive.axis0.controller.pos_setpoint = -setpoint
+            my_drive.axis1.controller.pos_setpoint = -setpoint
+
         main_screen.clear()
         print_keys(key, main_screen)
         
         
-        time.sleep(0.01)
+        #time.sleep(0.01)
         
-        if key == "q":
-            sys.exit()
-        elif key == "j":
-            setpoint = setpoint + 10
-            my_drive.axis0.controller.pos_setpoint = -setpoint
-            my_drive.axis1.controller.pos_setpoint = -setpoint
-        elif key == "k":
-            setpoint = setpoint + 10
-            my_drive.axis0.controller.pos_setpoint = setpoint
-            my_drive.axis1.controller.pos_setpoint = -setpoint
-        elif key == "l":
-            setpoint = setpoint + 10
-            my_drive.axis0.controller.pos_setpoint = -setpoint
-            my_drive.axis1.controller.pos_setpoint = setpoint
-        elif key == ";":
-            setpoint = setpoint + 10
-            my_drive.axis0.controller.pos_setpoint = setpoint
-            my_drive.axis1.controller.pos_setpoint = setpoint
+        
         
         print_line_bottom_center("Use the above keys to drive the robot.", main_screen)
         print_line_bottom_center("Press q to exit.", main_screen, 1)
