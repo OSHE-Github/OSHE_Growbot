@@ -33,18 +33,18 @@ my_drive.axis1.requested_state = AXIS_STATE_CLOSED_LOOP_CONTROL
 print("Bus voltage is " + str(my_drive.vbus_voltage) + "V")
 
 # Or to change a value, just assign to the property
-my_drive.axis0.controller.pos_setpoint = 3.14
-my_drive.axis1.controller.pos_setpoint = 3.14
-print("1: Position setpoint is " + str(my_drive.axis0.controller.pos_setpoint))
-print("2: Position setpoint is " + str(my_drive.axis1.controller.pos_setpoint))
+my_drive.axis0.controller.input_pos = 3.14
+my_drive.axis1.controller.input_pos = 3.14
+print("1: Position setpoint is " + str(my_drive.axis0.controller.input_pos))
+print("2: Position setpoint is " + str(my_drive.axis1.controller.input_pos))
 
 # And this is how function calls are done:
 for i in [1,2,3,4]:
     print('voltage on GPIO{} is {} Volt'.format(i, my_drive.get_adc_voltage(i)))
 
 # circular continuous running
-my_drive.axis0.controller.config.setpoints_in_cpr = True
-my_drive.axis1.controller.config.setpoints_in_cpr = True
+#my_drive.axis0.controller.config.setpoints_in_cpr = True
+#my_drive.axis1.controller.config.setpoints_in_cpr = True
 
 # A sine wave to test
 t0 = time.monotonic()
@@ -52,8 +52,8 @@ setpoint = 0
 while True:
     setpoint = setpoint + 100
     print("goto " + str(int(setpoint)))
-    my_drive.axis0.controller.pos_setpoint = setpoint
-    my_drive.axis1.controller.pos_setpoint = setpoint
+    my_drive.axis0.controller.input_pos = setpoint
+    my_drive.axis1.controller.input_pos = setpoint
     time.sleep(0.01)
 
 # Some more things you can try:

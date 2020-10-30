@@ -1,0 +1,63 @@
+odrv0.vbus_voltage
+odrv0.axis0.motor.config.current_lim = 60 // If you up this value the motors will fight harder to maintain their position. Motors take up to a max of 70A.
+odrv0.axis0.controller.config.vel_limit = 5
+odrv0.axis0.motor.config.calibration_current = 30
+odrv0.config.brake_resistance = 2
+odrv0.axis0.motor.config.pole_pairs = 7 // number of magnet poles in the rotor, divided by two. To find this, you can simply count the number of permanent magnets in the rotor.
+odrv0.axis0.motor.config.torque_constant = 0.05550335570469799 // (8.27/149 KV) or 1 if you want current control.
+odrv0.axis0.motor.config.motor_type = MOTOR_TYPE_HIGH_CURRENT
+odrv0.axis0.encoder.config.cpr = 8192 // This is 4x the Pulse Per Revolution (PPR) value.
+odrv0.save_configuration()
+odrv0.axis0.requested_state = AXIS_STATE_FULL_CALIBRATION_SEQUENCE
+
+############################################################################
+In the odrivetool, type <axis>.requested_state = AXIS_STATE_ENCODER_OFFSET_CALIBRATION Enter.
+
+To verify everything went well, check the following variables:
+
+    <axis>.error should be 0.
+    <axis>.encoder.config.offset - This should print a number, like -326 or 1364.
+    <axis>.motor.config.direction - This should print 1 or -1.
+############################################################################
+
+odrv0.axis0.requested_state = AXIS_STATE_CLOSED_LOOP_CONTROL
+
+odrv0.axis0.controller.config.control_mode = CONTROL_MODE_VELOCITY_CONTROL // Or just 2.
+odrv0.axis0.controller.config.input_mode = INPUT_MODE_VEL_RAMP
+odrv0.axis0.controller.config.vel_ramp_rate = 10
+
+odrv0.axis0.controller.input_vel = 1
+
+
+    odrv0.axis0.encoder.config.pre_calibrated = True
+    odrv0.axis0.motor.config.pre_calibrated = True
+    
+    
+    odrv0.save_configuration()
+    odrv0.reboot()
+
+    
+    odrv0.axis0.requested_state = AXIS_STATE_ENCODER_INDEX_SEARCH
+
+
+############################################################################
+odrv0.axis0.controller.config.pos_gain = 20.0
+odrv0.axis0.controller.config.vel_gain = 0.16
+odrv0.axis0.controller.config.vel_integrator_gain = 0.32
+
+An upcoming feature will enable automatic tuning. Until then, here is a rough tuning procedure:
+
+    Set vel_integrator_gain gain to 0
+    Make sure you have a stable system. If it is not, decrease all gains until you have one.
+    Increase vel_gain by around 30% per iteration until the motor exhibits some vibration.
+    Back down vel_gain to 50% of the vibrating value.
+    Increase pos_gain by around 30% per iteration until you see some overshoot.
+    Back down pos_gain until you do not have overshoot anymore.
+    The integrator can be set to 0.5 * bandwidth * vel_gain, where bandwidth is the overall resulting tracking bandwidth of your system. Say your tuning made it track commands with a settling time of 100ms (the time from when the setpoint changes to when the system arrives at the new setpoint); this means the bandwidth was 1/(100ms) = 1/(0.1s) = 10hz. In this case you should set the vel_integrator_gain = 0.5 * 10 * vel_gain.
+
+The liveplotter tool can be immensely helpful in dialing in these values. To display a graph that plots the position setpoint vs the measured position value run the following in the ODrive tool:
+
+start_liveplotter(lambda:[odrv0.axis0.encoder.pos_estimate, odrv0.axis0.controller.pos_setpoint])
+
+odrv0.erase_configuration()
+############################################################################

@@ -30,23 +30,6 @@ my_drive.axis1.requested_state = AXIS_STATE_CLOSED_LOOP_CONTROL
 # To read a value, simply read the property
 print("Bus voltage is " + str(my_drive.vbus_voltage) + "V")
 
-# Or to change a value, just assign to the property
-my_drive.axis0.controller.pos_setpoint = 3.14
-my_drive.axis1.controller.pos_setpoint = 3.14
-print("1: Position setpoint is " + str(my_drive.axis0.controller.pos_setpoint))
-print("2: Position setpoint is " + str(my_drive.axis1.controller.pos_setpoint))
-
-# And this is how function calls are done:
-for i in [1,2,3,4]:
-    print('voltage on GPIO{} is {} Volt'.format(i, my_drive.get_adc_voltage(i)))
-
-# circular continuous running
-my_drive.axis0.controller.config.setpoints_in_cpr = True
-my_drive.axis1.controller.config.setpoints_in_cpr = True
-
-# Save the config
-#my_drive.save_configuration()
-
 ###################### CURSES PART ##########################
 # Prints a line in the center of the specified screen
 def print_line_center(message, screen):
@@ -137,10 +120,6 @@ def check_screen_resize(screen):
     
 def main(main_screen):
     
-    # odrive stuffs
-    t0 = time.monotonic()
-    setpoint = 0
-    
     # Turns off the cursor
     curses.curs_set(0)
     
@@ -152,6 +131,12 @@ def main(main_screen):
     print_line_bottom_center("Press q to exit.", main_screen, 1)
     main_screen.refresh()
     
+    # Speed of the robot
+    setpoint = 1
+    # initialize robot to not move.
+    my_drive.axis0.controller.input_vel = 0
+    my_drive.axis1.controller.input_vel = 0
+    
     while True:
         
         # check_screen_resize(main_screen)
@@ -159,29 +144,34 @@ def main(main_screen):
         key = chr(main_screen.getch())
        
         if key == "q":
+            my_drive.axis0.requested_state = AXIS_STATE_IDLE
+            my_drive.axis1.requested_state = AXIS_STATE_IDLE
             sys.exit()
         elif key == "j":
-            setpoint = setpoint + 100
-            my_drive.axis0.controller.pos_setpoint = setpoint
-            my_drive.axis1.controller.pos_setpoint = setpoint
+            my_drive.axis0.controller.input_vel = setpoint
+            my_drive.axis1.controller.input_vel = setpoint
         elif key == "k":
-            setpoint = setpoint + 100
-            my_drive.axis0.controller.pos_setpoint = setpoint
-            my_drive.axis1.controller.pos_setpoint = -setpoint
+            my_drive.axis0.controller.input_vel = setpoint
+            my_drive.axis1.controller.input_vel = -setpoint
         elif key == "l":
-            setpoint = setpoint + 100
-            my_drive.axis0.controller.pos_setpoint = -setpoint
-            my_drive.axis1.controller.pos_setpoint = setpoint
+            my_drive.axis0.controller.input_vel = -setpoint
+            my_drive.axis1.controller.input_vel = setpoint
         elif key == ";":
-            setpoint = setpoint + 100
-            my_drive.axis0.controller.pos_setpoint = -setpoint
-            my_drive.axis1.controller.pos_setpoint = -setpoint
-
+            my_drive.axis0.controller.input_vel = -setpoint
+            my_drive.axis1.controller.input_vel = -setpoint
+        elif key == "f":
+            setpoint += 0.25
+        elif key == "s":
+            setpoint -= 0.25
+        else:
+            my_drive.axis0.controller.input_vel = 0
+            my_drive.axis1.controller.input_vel = 0        
+        
         main_screen.clear()
         print_keys(key, main_screen)
         
         
-        #time.sleep(0.01)
+        time.sleep(0.01)
         
         
         
