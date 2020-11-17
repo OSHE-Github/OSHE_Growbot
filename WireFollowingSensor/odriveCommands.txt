@@ -1,7 +1,7 @@
 odrv0.vbus_voltage
-odrv0.axis0.motor.config.current_lim = 60 // If you up this value the motors will fight harder to maintain their position. Motors take up to a max of 70A.
-odrv0.axis0.controller.config.vel_limit = 5
-odrv0.axis0.motor.config.calibration_current = 30
+odrv0.axis0.motor.config.current_lim = 70 // If you up this value the motors will fight harder to maintain their position. Motors take up to a max of 70A.
+odrv0.axis0.controller.config.vel_limit = 20
+odrv0.axis0.motor.config.calibration_current = 10
 odrv0.config.brake_resistance = 2
 odrv0.axis0.motor.config.pole_pairs = 7 // number of magnet poles in the rotor, divided by two. To find this, you can simply count the number of permanent magnets in the rotor.
 odrv0.axis0.motor.config.torque_constant = 0.05550335570469799 // (8.27/149 KV) or 1 if you want current control.
@@ -61,3 +61,237 @@ start_liveplotter(lambda:[odrv0.axis0.encoder.pos_estimate, odrv0.axis0.controll
 
 odrv0.erase_configuration()
 ############################################################################
+
+
+Axis0 before stalled
+---------------------
+error = 0x0000 (int)
+step_dir_active = False (bool)
+current_state = 8 (int)
+requested_state = 0 (int)
+loop_counter = 2657304 (int)
+lockin_state = 0 (int)
+is_homed = False (bool)
+config:
+  startup_motor_calibration = False (bool)
+  startup_encoder_index_search = False (bool)
+  startup_encoder_offset_calibration = False (bool)
+  startup_closed_loop_control = False (bool)
+  startup_sensorless_control = False (bool)
+  startup_homing = False (bool)
+  enable_step_dir = False (bool)
+  step_dir_always_on = False (bool)
+  turns_per_step = 0.0009765625 (float)
+  watchdog_timeout = 0.0 (float)
+  enable_watchdog = False (bool)
+  step_gpio_pin = 1 (int)
+  dir_gpio_pin = 2 (int)
+  calibration_lockin: ...
+  sensorless_ramp: ...
+  general_lockin: ...
+  can_node_id = 0 (int)
+  can_node_id_extended = False (bool)
+  can_heartbeat_rate_ms = 100 (int)
+fet_thermistor:
+  error = 0x0000 (int)
+  temperature = 34.69414138793945 (float)
+  config: ...
+motor_thermistor:
+  error = 0x0000 (int)
+  temperature = 0.0 (float)
+  config: ...
+motor:
+  error = 0x0000 (int)
+  armed_state = 3 (int)
+  is_calibrated = True (bool)
+  current_meas_phB = -0.22493064403533936 (float)
+  current_meas_phC = -0.6648518443107605 (float)
+  DC_calib_phB = -0.8626329302787781 (float)
+  DC_calib_phC = -0.1811363697052002 (float)
+  phase_current_rev_gain = 0.02500000037252903 (float)
+  effective_current_lim = 60.75 (float)
+  current_control: ...
+  gate_driver: ...
+  timing_log: ...
+  config: ...
+controller:
+  error = 0x0000 (int)
+  input_pos = 0.0710144117474556 (float)
+  input_vel = 1.0 (float)
+  input_torque = 0.0 (float)
+  pos_setpoint = 0.0710144117474556 (float)
+  vel_setpoint = 1.0 (float)
+  torque_setpoint = 0.0 (float)
+  trajectory_done = True (bool)
+  vel_integrator_torque = 0.032414715737104416 (float)
+  anticogging_valid = False (bool)
+  config: ...
+  move_incremental(displacement: float, from_input_pos: bool)
+  start_anticogging_calibration()
+encoder:
+  error = 0x0000 (int)
+  is_ready = True (bool)
+  index_found = True (bool)
+  shadow_count = 137010 (int)
+  count_in_cpr = 5949 (int)
+  interpolation = 0.0 (float)
+  phase = -2.4799692630767822 (float)
+  pos_estimate = 16.729801177978516 (float)
+  pos_estimate_counts = 137060.84375 (float)
+  pos_cpr = 0.7323228120803833 (float)
+  pos_cpr_counts = 6009.5009765625 (float)
+  pos_circular = 0.7350006103515625 (float)
+  hall_state = 3 (int)
+  vel_estimate = 1.0986329317092896 (float)
+  vel_estimate_counts = 9125.0009765625 (float)
+  calib_scan_response = 9344.0 (float)
+  pos_abs = 0 (int)
+  spi_error_rate = 0.0 (float)
+  config: ...
+  set_linear_count(count: int)
+sensorless_estimator:
+  error = 0x0000 (int)
+  phase = -0.4470673203468323 (float)
+  pll_pos = -0.39560890197753906 (float)
+  vel_estimate = 1.0591471195220947 (float)
+  config: ...
+trap_traj:
+  config: ...
+min_endstop:
+  endstop_state = False (bool)
+  config: ...
+max_endstop:
+  endstop_state = False (bool)
+  config: ...
+watchdog_feed()
+clear_errors()
+
+Axis0 after stall:
+------------------
+error = 0x0200 (int)
+step_dir_active = False (bool)
+current_state = 1 (int)
+requested_state = 0 (int)
+loop_counter = 2973791 (int)
+lockin_state = 0 (int)
+is_homed = False (bool)
+config:
+  startup_motor_calibration = False (bool)
+  startup_encoder_index_search = False (bool)
+  startup_encoder_offset_calibration = False (bool)
+  startup_closed_loop_control = False (bool)
+  startup_sensorless_control = False (bool)
+  startup_homing = False (bool)
+  enable_step_dir = False (bool)
+  step_dir_always_on = False (bool)
+  turns_per_step = 0.0009765625 (float)
+  watchdog_timeout = 0.0 (float)
+  enable_watchdog = False (bool)
+  step_gpio_pin = 1 (int)
+  dir_gpio_pin = 2 (int)
+  calibration_lockin: ...
+  sensorless_ramp: ...
+  general_lockin: ...
+  can_node_id = 0 (int)
+  can_node_id_extended = False (bool)
+  can_heartbeat_rate_ms = 100 (int)
+fet_thermistor:
+  error = 0x0000 (int)
+  temperature = 35.02814865112305 (float)
+  config: ...
+motor_thermistor:
+  error = 0x0000 (int)
+  temperature = 0.0 (float)
+  config: ...
+motor:
+  error = 0x0010 (int)
+  armed_state = 0 (int)
+  is_calibrated = True (bool)
+  current_meas_phB = -0.0825689435005188 (float)
+  current_meas_phC = 0.09644676744937897 (float)
+  DC_calib_phB = -0.8841007947921753 (float)
+  DC_calib_phC = -0.21717825531959534 (float)
+  phase_current_rev_gain = 0.02500000037252903 (float)
+  effective_current_lim = 60.75 (float)
+  current_control: ...
+  gate_driver: ...
+  timing_log: ...
+  config: ...
+controller:
+  error = 0x0001 (int)
+  input_pos = 0.0710144117474556 (float)
+  input_vel = 1.0 (float)
+  input_torque = 0.0 (float)
+  pos_setpoint = 0.0710144117474556 (float)
+  vel_setpoint = 1.0 (float)
+  torque_setpoint = 0.0 (float)
+  trajectory_done = True (bool)
+  vel_integrator_torque = 1.3543143272399902 (float)
+  anticogging_valid = False (bool)
+  config: ...
+  move_incremental(displacement: float, from_input_pos: bool)
+  start_anticogging_calibration()
+encoder:
+  error = 0x0000 (int)
+  is_ready = True (bool)
+  index_found = True (bool)
+  shadow_count = 275467 (int)
+  count_in_cpr = 5131 (int)
+  interpolation = 0.5 (float)
+  phase = -0.6878955364227295 (float)
+  pos_estimate = 33.62643814086914 (float)
+  pos_estimate_counts = 275467.78125 (float)
+  pos_cpr = 0.6264356374740601 (float)
+  pos_cpr_counts = 5131.7607421875 (float)
+  pos_circular = 0.626434326171875 (float)
+  hall_state = 2 (int)
+  vel_estimate = 0.0 (float)
+  vel_estimate_counts = 0.0 (float)
+  calib_scan_response = 9344.0 (float)
+  pos_abs = 0 (int)
+  spi_error_rate = 0.0 (float)
+  config: ...
+  set_linear_count(count: int)
+sensorless_estimator:
+  error = 0x0000 (int)
+  phase = -3.0872180461883545 (float)
+  pll_pos = -3.084947109222412 (float)
+  vel_estimate = -0.013398943468928337 (float)
+  config: ...
+trap_traj:
+  config: ...
+min_endstop:
+  endstop_state = False (bool)
+  config: ...
+max_endstop:
+  endstop_state = False (bool)
+  config: ...
+watchdog_feed()
+clear_errors()
+
+dumped errors after holding wheel until robot goes limp
+-------------------------------------------------------
+
+In [6]: dump_errors(odrv0)
+axis0
+  axis: Error(s):
+    AXIS_ERROR_CONTROLLER_FAILED
+  motor: Error(s):
+    MOTOR_ERROR_CONTROL_DEADLINE_MISSED
+  fet_thermistor: no error
+  motor_thermistor: no error
+  encoder: no error
+  controller: Error(s):
+    CONTROLLER_ERROR_OVERSPEED
+axis1
+  axis: no error
+  motor: no error
+  fet_thermistor: no error
+  motor_thermistor: no error
+  encoder: no error
+  controller: no error
+
+Think this fixes things
+-----------------------
+
+odrv0.axis0.motor.config.direction = 1 it is really jumpy tho, need to get it to be smooth.

@@ -149,7 +149,7 @@ def main(main_screen):
             sys.exit()
         elif key == "j":
             my_drive.axis0.controller.input_vel = setpoint
-            my_drive.axis1.controller.input_vel = setpoint
+            my_drive.axis1.controller.input_vel = -setpoint/2
         elif key == "k":
             my_drive.axis0.controller.input_vel = setpoint
             my_drive.axis1.controller.input_vel = -setpoint
@@ -157,7 +157,7 @@ def main(main_screen):
             my_drive.axis0.controller.input_vel = -setpoint
             my_drive.axis1.controller.input_vel = setpoint
         elif key == ";":
-            my_drive.axis0.controller.input_vel = -setpoint
+            my_drive.axis0.controller.input_vel = setpoint/2
             my_drive.axis1.controller.input_vel = -setpoint
         elif key == "f":
             setpoint += 0.25
