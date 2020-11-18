@@ -50,7 +50,7 @@ while (time.time() - start) <= 30.0:
     values = [0]*2   
     for i in range(2):
         # Read the specified ADC channel using the previously set gain value.
-        values[i] = adc.read_adc(i, gain=GAIN)
+        values[i] = adc.read_adc(i, gain=GAIN)/500
         
     print('| {0:>6} | {1:>6} |'.format(*values))
 
