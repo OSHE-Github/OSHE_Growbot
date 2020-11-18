@@ -8,8 +8,6 @@ import Adafruit_ADS1x15
 
 
 # Create an ADS1115 ADC (16-bit) instance.
-#adc1 = Adafruit_ADS1x15.ADS1115()
-#adc2 = Adafruit_ADS1x15.ADS1115()
 adc = Adafruit_ADS1x15.ADS1115()
 
 # Or create an ADS1015 ADC (12-bit) instance.
@@ -28,14 +26,12 @@ adc = Adafruit_ADS1x15.ADS1115()
 #  -   8 = +/-0.512V
 #  -  16 = +/-0.256V
 # See table 3 in the ADS1015/ADS1115 datasheet for more info on gain.
-GAIN = 1 
+GAIN = 2/3 
 
 # Start continuous ADC conversions on channel 0 using the previously set gain
 # value.  Note you can also pass an optional data_rate parameter, see the simpletest.py
 # example and read_adc function for more infromation.
-#adc1.start_adc(1, gain=GAIN)
-#adc2.start_adc(2, gain=GAIN)
-adc.start_adc(1, gain=GAIN)
+#adc.start_adc(1, gain=GAIN)
 
 # Once continuous ADC conversions are started you can call get_last_result() to
 # retrieve the latest result, or stop_adc() to stop conversions.
@@ -50,17 +46,21 @@ start = time.time()
 while (time.time() - start) <= 30.0:
     # Read the last ADC conversion value and print it out.
     # WARNING! If you try to read any other ADC channel during this continuous
-    #value1 = adc1.get_last_result()
-    #value2 = adc2.get_last_result()
-    value = adc.get_last_result()
+    # value = adc.get_last_result()
+    values = [0]*2   
+    for i in range(2):
+        # Read the specified ADC channel using the previously set gain value.
+        values[i] = adc.read_adc(i, gain=GAIN)
+        
+    print('| {0:>6} | {1:>6} |'.format(*values))
 
     # conversion (like by calling read_adc again) it will disable the
     # continuous conversion!
-    #print('Channel 1: {0} Channel 2: {1}'.format(value1, value2))
-    print('Channel 1: {0}'.format(value))
+    # print('Channel 1: {0} Channel 2: {1}'.format(value1, value2))
+    # print('Channel 1: {0}'.format(value))
 
     # Sleep for a quarter second.
     #time.sleep(0.25)
 
 # Stop continuous conversion.  After this point you can't get data from get_last_result!
-adc.stop_adc()
+# adc.stop_adc()
