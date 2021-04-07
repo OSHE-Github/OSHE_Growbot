@@ -13,9 +13,23 @@ import sys
 
 # Find a connected ODrive (this will block until you connect one)
 print("finding an odrive...")
+my_drive = odrive.find_any()
 
 # Calibrate motor and wait for it to finish
+print("starting calibration...")
+my_drive.axis0.requested_state = AXIS_STATE_FULL_CALIBRATION_SEQUENCE
+my_drive.axis1.requested_state = AXIS_STATE_FULL_CALIBRATION_SEQUENCE
+
+while my_drive.axis0.current_state != AXIS_STATE_IDLE:
+    time.sleep(0.1)
+while my_drive.axis1.current_state != AXIS_STATE_IDLE:
+    time.sleep(0.1)
+
+my_drive.axis0.requested_state = AXIS_STATE_CLOSED_LOOP_CONTROL
+my_drive.axis1.requested_state = AXIS_STATE_CLOSED_LOOP_CONTROL
+
 # To read a value, simply read the property
+voltageString = ("Bus voltage is " + str(my_drive.vbus_voltage) + "V")
 
 ###################### CURSES PART ##########################
 # Prints a line in the center of the specified screen
@@ -133,11 +147,16 @@ def main(main_screen):
     # Speed of the robot
     setpoint = 1
 
+    # initialize robot to not move.
+    my_drive.axis0.controller.input_vel = 0
+    my_drive.axis1.controller.input_vel = 0
+
     # Initialize the screen the first time.before the loop starts
     key = "b"
     main_screen.border()
     print_keys(key, main_screen)
     print_line_top_center("{0} Turns/sec".format(setpoint), main_screen)
+    print_line_top_center(voltageString, main_screen, 1)
     print_line_bottom_center("Use the above keys to drive the robot (like vim).", main_screen)
     print_line_bottom_center("Press \"Space\" to stop robot, and \"q\" to exit this utility,", main_screen, 1)
     print_line_bottom_center("press \"f\" to go faster, and \"s\" to go slower.", main_screen, 2)
@@ -152,30 +171,33 @@ def main(main_screen):
         key = chr(main_screen.getch())
        
         if key == "q":
+            my_drive.axis0.requested_state = AXIS_STATE_IDLE
+            my_drive.axis1.requested_state = AXIS_STATE_IDLE
             sys.exit()
         elif key == "j":
-            setpoint0 = setpoint
-            setpoint1 = -setpoint/2
+            my_drive.axis0.controller.input_vel = setpoint
+            my_drive.axis1.controller.input_vel = -setpoint/2
         elif key == "k":
-            setpoint0 = setpoint
-            setpoint1 = -setpoint
+            my_drive.axis0.controller.input_vel = setpoint
+            my_drive.axis1.controller.input_vel = -setpoint
         elif key == "l":
-            setpoint0 = -setpoint
-            setpoint1 = setpoint
+            my_drive.axis0.controller.input_vel = -setpoint
+            my_drive.axis1.controller.input_vel = setpoint
         elif key == ";":
-            setpoint0 = setpoint/2
-            setpoint1 = -setpoint
+            my_drive.axis0.controller.input_vel = setpoint/2
+            my_drive.axis1.controller.input_vel = -setpoint
         elif key == "f":
             setpoint += 0.25
         elif key == "s":
             setpoint -= 0.25
         else:
-            setpoint0 = 0
-            setpoint1 = 0        
+            my_drive.axis0.controller.input_vel = 0
+            my_drive.axis1.controller.input_vel = 0        
         
         main_screen.clear()
         print_keys(key, main_screen)
         print_line_top_center("{0} Turns/sec".format(setpoint), main_screen)
+        print_line_top_center(voltageString, main_screen, 1)
         print_line_bottom_center("Use the above keys to drive the robot (like vim).", main_screen)
         print_line_bottom_center("Press \"Space\" to stop robot, and \"q\" to exit this utility,", main_screen, 1)
         print_line_bottom_center("press \"f\" to go faster, and \"s\" to go slower.", main_screen, 2)
