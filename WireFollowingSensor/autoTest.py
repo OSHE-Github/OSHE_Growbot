@@ -24,8 +24,9 @@ adc = Adafruit_ADS1x15.ADS1115()
 GAIN = 1 # Choose a gain of 1 for reading voltages from 0 to 4.09V.
 setpoint0 = 0
 setpoint1 = 0
-MAX0 = 0  # CHANGE THIS
-MAX1 = 0  # CHANGE THIS
+MAX = 1
+MAX0 = 1  # CHANGE THIS
+MAX1 = 1  # CHANGE THIS
 increment = 100 # motor step
 rest = 0.25 # sleep time in seconds
 #-------------------------------------------------------------------------------
@@ -51,18 +52,18 @@ my_drive.axis1.requested_state = AXIS_STATE_CLOSED_LOOP_CONTROL
 print("Bus voltage is " + str(my_drive.vbus_voltage) + "V")
 
 # Or to change a value, just assign to the property
-my_drive.axis0.controller.pos_setpoint = 3.14
-my_drive.axis1.controller.pos_setpoint = 3.14
-print("1: Position setpoint is " + str(my_drive.axis0.controller.pos_setpoint))
-print("2: Position setpoint is " + str(my_drive.axis1.controller.pos_setpoint))
+my_drive.axis0.controller.input_pos = 3.14
+my_drive.axis1.controller.input_pos = 3.14
+print("1: Position setpoint is " + str(my_drive.axis0.controller.input_pos))
+print("2: Position setpoint is " + str(my_drive.axis1.controller.input_pos))
 
 # And this is how function calls are done:
 for i in [1,2,3,4]:
     print('voltage on GPIO{} is {} Volt'.format(i, my_drive.get_adc_voltage(i)))
 
 # circular continuous running
-my_drive.axis0.controller.config.setpoints_in_cpr = True
-my_drive.axis1.controller.config.setpoints_in_cpr = True
+my_drive.axis0.controller.config.circular_setpoints = True
+my_drive.axis1.controller.config.circular_setpoints = True
 
 # c
 # 0: sensorTest
@@ -88,20 +89,20 @@ while True:
     # Motors
     if c != 0:
         setpoint0 = setpoint0 + increment
-        my_drive.axis0.controller.pos_setpoint = setpoint0
+        my_drive.axis0.controller.input_pos = setpoint0
 
         setpoint1 = setpoint1 + increment
-        my_drive.axis1.controller.pos_setpoint = setpoint1
+        my_drive.axis1.controller.input_pos = setpoint1
 
         # autoTest 0 and all
         if c == 2 or c == 4:
             # motor and sensor 0 (assuming they are on the same side)
             if values[0] < 0.6 * MAX0:
                 setpoint0 = setpoint0 + increment
-                my_drive.axis0.controller.pos_setpoint = setpoint0
+                my_drive.axis0.controller.input_pos = setpoint0
             elif values[0] > 0.6 * MAX < 0.9 * MAX0:
                 setpoint0 = setpoint0 + increment * .5
-                my_drive.axis0.controller.pos_setpoint = setpoint0
+                my_drive.axis0.controller.input_pos = setpoint0
                 # else don't do anything because it is too close to wire
 
         # autoTest 1 and all
@@ -109,18 +110,18 @@ while True:
             # motor and sensor 1 (assuming they are on the same side)
             if values[1] < 0.6 * MAX1:
                 setpoint1 = setpoint1 + increment
-                my_drive.axis1.controller.pos_setpoint = setpoint1
+                my_drive.axis1.controller.input_pos = setpoint1
             elif values[1] > 0.6 * MAX < 0.9 * MAX1:
                 setpoint1 = setpoint1 + increment * .5
-                my_drive.axis1.controller.pos_setpoint = setpoint1
+                my_drive.axis1.controller.input_pos = setpoint1
                 # else don't do anything because it is too close to wire
 
         # motorTest
         if c == 1:
             setpoint0 = setpoint0 + increment
-            my_drive.axis0.controller.pos_setpoint = setpoint0
+            my_drive.axis0.controller.input_pos = setpoint0
             setpoint1 = setpoint1 + increment
-            my_drive.axis1.controller.pos_setpoint = setpoint1
+            my_drive.axis1.controller.input_pos = setpoint1
 
     # Pause for quarter of a second.
     time.sleep(rest)

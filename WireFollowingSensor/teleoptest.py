@@ -16,19 +16,8 @@ print("finding an odrive...")
 my_drive = odrive.find_any()
 
 # Calibrate motor and wait for it to finish
-print("starting calibration...")
-my_drive.axis0.requested_state = AXIS_STATE_FULL_CALIBRATION_SEQUENCE
-my_drive.axis1.requested_state = AXIS_STATE_FULL_CALIBRATION_SEQUENCE
-while my_drive.axis0.current_state != AXIS_STATE_IDLE:
-    time.sleep(0.1)
-while my_drive.axis1.current_state != AXIS_STATE_IDLE:
-    time.sleep(0.1)
-
-my_drive.axis0.requested_state = AXIS_STATE_CLOSED_LOOP_CONTROL
-my_drive.axis1.requested_state = AXIS_STATE_CLOSED_LOOP_CONTROL
-
 # To read a value, simply read the property
-voltageString = ("Bus voltage is " + str(my_drive.vbus_voltage) + "V")
+print("Bus voltage is " + str(my_drive.vbus_voltage) + "V")
 
 ###################### CURSES PART ##########################
 # Prints a line in the center of the specified screen
@@ -48,6 +37,26 @@ def print_line_center(message, screen):
     
     # Draw the text
     screen.addstr(middle_row, x_position, message)
+
+# Prints a line in the center of the specified screen at the top.
+def print_line_top_center(message, screen, offset=0):
+    
+    # Get the number of rows and columns so that text can be centered in the terminal window.
+    num_rows, num_cols = screen.getmaxyx()
+    
+    # Calculate center row
+    middle_row = int(num_rows / 2 - num_rows / 4 - offset)
+    
+    # Calculate center column, and then adjust starting position based
+    # on the length of the message
+    half_length_of_message = int(len(message) / 2)
+    middle_column = int(num_cols / 2)
+    x_position = middle_column - half_length_of_message
+    
+    # Draw the text
+    screen.addstr(middle_row, x_position, message)
+
+
 
 # Prints a line in the center of the specified screen on the bottom
 def print_line_bottom_center(message, screen, offset=0):
@@ -129,14 +138,11 @@ def main(main_screen):
     print_keys(key, main_screen)
     print_line_bottom_center("Use the above keys to drive the robot.", main_screen)
     print_line_bottom_center("Press q to exit.", main_screen, 1)
-    print_line_bottom_center(voltageString, main_screen, 2)
     main_screen.refresh()
     
     # Speed of the robot
     setpoint = 1
     # initialize robot to not move.
-    my_drive.axis0.controller.input_vel = 0
-    my_drive.axis1.controller.input_vel = 0
     
     while True:
         
@@ -145,28 +151,26 @@ def main(main_screen):
         key = chr(main_screen.getch())
        
         if key == "q":
-            my_drive.axis0.requested_state = AXIS_STATE_IDLE
-            my_drive.axis1.requested_state = AXIS_STATE_IDLE
             sys.exit()
         elif key == "j":
-            my_drive.axis0.controller.input_vel = setpoint
-            my_drive.axis1.controller.input_vel = -setpoint/2
+            setpoint0 = setpoint
+            setpoint1 = -setpoint/2
         elif key == "k":
-            my_drive.axis0.controller.input_vel = setpoint
-            my_drive.axis1.controller.input_vel = -setpoint
+            setpoint0 = setpoint
+            setpoint1 = -setpoint
         elif key == "l":
-            my_drive.axis0.controller.input_vel = -setpoint
-            my_drive.axis1.controller.input_vel = setpoint
+            setpoint0 = -setpoint
+            setpoint1 = setpoint
         elif key == ";":
-            my_drive.axis0.controller.input_vel = setpoint/2
-            my_drive.axis1.controller.input_vel = -setpoint
+            setpoint0 = setpoint/2
+            setpoint1 = -setpoint
         elif key == "f":
             setpoint += 0.25
         elif key == "s":
             setpoint -= 0.25
         else:
-            my_drive.axis0.controller.input_vel = 0
-            my_drive.axis1.controller.input_vel = 0        
+            setpoint0 = 0
+            setpoint1 = 0        
         
         main_screen.clear()
         print_keys(key, main_screen)
@@ -178,6 +182,7 @@ def main(main_screen):
         
         print_line_bottom_center("Use the above keys to drive the robot.", main_screen)
         print_line_bottom_center("Press q to exit.", main_screen, 1)
+        print_line_bottom_center("Testing", main_screen, 2)
         main_screen.refresh()
 
 wrapper(main)
