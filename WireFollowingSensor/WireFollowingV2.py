@@ -1,6 +1,3 @@
-# Simple demo of continuous ADC conversion mode for channel 0 of the ADS1x15 ADC.
-# Author: Tony DiCola
-# License: Public Domain
 import time
 import odrive
 from odrive.enums import *
@@ -51,20 +48,21 @@ def WireFollowingLoop():
         # Read the specified ADC channel using the previously set gain value.
         value1 = abs(adc.read_adc(1, gain=GAIN)) + 1
         value0 = abs(adc.read_adc(0, gain=GAIN)) + 1
-     
-        print('| {0:>8} | {1:>8} |'.format(value1, value0))
+        bar1 = "█"*int(value1/2400)
+        bar0 = "█"*int(value0/2400)
+        print('| {0:>6} | {2:>10} | {3:>10} | {1:>6} |'.format(value1, value0, bar1, bar0))
 
         # Check to make sure that robot is driving straight.
-        if (value0 < 100 and value1 < 100):
+        if (abs(value0 - value1) < 100):
             my_drive.axis0.controller.input_vel = drivingSpeed
             my_drive.axis1.controller.input_vel = -drivingSpeed
             timeSince = time.time() - timeOfWireSense
         # If not, then correct by value of encoders.
-        elif (value0 > 100):
+        elif (value0 > value1):
             my_drive.axis0.controller.input_vel = (drivingSpeed*1.75) + drivingSpeed*(value0/14000)
             my_drive.axis1.controller.input_vel = -(drivingSpeed/3)
             timeOfWireSense = time.time()
-        elif (value1 > 100):
+        elif (value1 > value0):
             my_drive.axis0.controller.input_vel = drivingSpeed/3
             my_drive.axis1.controller.input_vel = -((drivingSpeed*1.75) + drivingSpeed*(value1/14000))
             timeOfWireSense = time.time()
