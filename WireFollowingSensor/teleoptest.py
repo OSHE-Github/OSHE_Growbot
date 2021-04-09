@@ -2,8 +2,6 @@
 
 from __future__ import print_function
 
-import odrive
-from odrive.enums import *
 import time
 import math
 import curses
