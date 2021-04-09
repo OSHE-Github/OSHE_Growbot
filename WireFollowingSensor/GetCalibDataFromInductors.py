@@ -12,6 +12,14 @@ while (True):
     # Read the specified ADC channel using the previously set gain value.
     value1 = abs(adc.read_adc(1, gain=GAIN)) + 1
     value0 = abs(adc.read_adc(0, gain=GAIN)) + 1
-    bar1 = "█"*int(value1/2400)
-    bar0 = "█"*int(value0/2400)
+#    if (value0 > 6000):
+#        value0 = 6000
+#    else:
+#        pass
+#    if (value1 > 6000):
+#        value1 = 6000
+#    else:
+#        pass
+    bar1 = "█"*int(value1/24000)
+    bar0 = "█"*int(value0/24000)
     print('| {0:>6} | {2:>10} | {3:>10} | {1:>6} |'.format(value1, value0, bar1, bar0))
