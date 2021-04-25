@@ -47,13 +47,13 @@ while (time.time() - start) <= 30.0:
     # Read the last ADC conversion value and print it out.
     # WARNING! If you try to read any other ADC channel during this continuous
     # value = adc.get_last_result()
-    values = [0]*2   
+    #values = [0]*2   
     for i in range(2):
         # Read the specified ADC channel using the previously set gain value.
-        values[i] = adc.read_adc(i, gain=GAIN)/500
-        
-    print('| {0:>6} | {1:>6} |'.format(*values))
-
+        #values[i] = adc.read_adc(i, gain=GAIN)/500
+        value = adc.read_adc(3, gain=GAIN)
+    #print('| {0:>6} | {1:>6} |'.format(*values))
+    print(value)
     # conversion (like by calling read_adc again) it will disable the
     # continuous conversion!
     # print('Channel 1: {0} Channel 2: {1}'.format(value1, value2))
