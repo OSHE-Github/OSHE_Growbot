@@ -1,0 +1,19 @@
+{
+  "name": "oshe_growbot",
+  "version": "1.0.0",
+  "description": "Open source robot gardener.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OSHE-Github/OSHE_Growbot.git"
+  },
+  "author": "Wilson Holmes",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/OSHE-Github/OSHE_Growbot/issues"
+  },
+  "homepage": "https://github.com/OSHE-Github/OSHE_Growbot#readme"
+}
