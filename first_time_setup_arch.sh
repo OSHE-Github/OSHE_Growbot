@@ -4,8 +4,8 @@
 #git submodule update --init --recursive
 
 # Install needed dependancies
-sudo apt update; sudo apt upgrade -y
-sudo apt install -y python3-venv sqlite3 npm
+sudo pacman -Syyu
+sudo pacman -S sqlite3 npm
 
 # Create and configure python virtual enviroment
 cd static
