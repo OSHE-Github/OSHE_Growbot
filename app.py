@@ -31,7 +31,8 @@ from apscheduler.schedulers.background import BackgroundScheduler
 #from camera_pi import Camera
 # model.py file that defines the databse and its behavior using the peewee orm
 import model
-
+# alternative camera stuff
+import cv2
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'OSHE'
@@ -109,27 +110,29 @@ def about():
     #     flash("This is an alert! Your Robot may have tipped over!")
     return render_template('about.html')
 
+def generate_frames():
 
-def gen(camera):
-    """Video streaming generator function."""
+    camera=cv2.VideoCapture(-1)
     while True:
-        frame = camera.get_frame()
-        yield (b'--frame\r\n'
-               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
-
-
-@app.route('/video_feed')
-def video_feed():
-    """Video streaming route. Put this in the src attribute of an img tag."""
-    return Response(gen(Camera()),
-                    mimetype='multipart/x-mixed-replace; boundary=frame')
-
+        ## Read the camera frame
+        success,frame=camera.read()
+        if not success:
+            break
+        else:
+            ret,buffer=cv2.imencode('.jpg',frame)
+            frame=buffer.tobytes()
+        
+        yield(b'--frame\r\n'
+                   b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')        
 
 # GrowCam page, maybe make this openCV sometime in the future for pest identification
 @app.route('/growcam')
 def growcam():
     return render_template('growcam.html')
 
+@app.route('/video')
+def video():
+    return Response(generate_frames(),mimetype='multipart/x-mixed-replace; boundary=frame')
 
 # # Page with a simple calculator done as a test of how to parse input and output
 # # from the website to a python variable
@@ -158,4 +161,4 @@ def calibrate():
 
 if __name__ == '__main__':
     # Use reloader flase keeps the cron job from running twice
-    app.run(host='0.0.0.0', debug=True, threaded=True, use_reloader=False)
+    app.run(debug=True) #host='0.0.0.0', debug=True, threaded=True, use_reloader=False)
