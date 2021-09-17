@@ -8,33 +8,31 @@ The goal of this project is to manufacture a robot, about 1 cubic foot in size, 
 
 ## Installation
 
-### For Raspbery Pi OS, Ubuntu, or MacOS
+### For Raspbery Pi OS or Ubuntu-based Linux distos
 ```sh
 # Make sure git is installed
-sudo apt install -y git
+sudo apt update; sudo apt install -y git
 
 # Clone and enter repository
-git clone https://github.com/OSHE-Github/OSHE_Growbot growbot
-cd growbot
+git clone https://github.com/OSHE-Github/OSHE_Growbot oshe_growbot
+cd oshe_growbot
 
 
 # Run setup script
 ./first_time_setup.sh
 ```
 
-### For Windows
+### For Arch-based Linux distros (like Manjaro)
 ```sh
+# Make sure git is installed
+sudo pacman -Syyu; sudo pacman -S git
+
 # Clone and enter repository
-git clone https://gitlab.com/mtu-most/most_openreactor
-cd most_openreactor
+git clone https://github.com/OSHE-Github/OSHE_Growbot oshe_growbot
+cd oshe_growbot
 
-# Update all submodules
-git submodule update --init --recursive
-
-# Create and configure python virtual enviroment
-python3 -m venv .venv
-source .venv/Scripts/activate
-pip install -r requirements.txt
+# Run setup script
+./first_time_setup_arch.sh
 ```
 
 ## Running
@@ -48,7 +46,12 @@ git pull --all
 git submodule foreach git pull
 ```
 
-## Reseting python enviroment when done running
+## Setting up python enviroment (in bash or zsh) when developing
+```sh
+source static/venv/bin/activate
+```
+
+## Reseting python enviroment
 ```sh
 deactivate
 ```
