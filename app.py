@@ -27,8 +27,6 @@ from flask_admin import Admin
 from flask_admin.contrib.peewee import ModelView
 # APScheduler
 from apscheduler.schedulers.background import BackgroundScheduler
-# Raspberry Pi camera module (requires picamera package)
-#from camera_pi import Camera
 # model.py file that defines the databse and its behavior using the peewee orm
 import model
 # alternative camera stuff
