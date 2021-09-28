@@ -7,10 +7,11 @@ import usb.util
 # 
 
 class TurnigyCharger(object):
-   VID = 0x8086
-   PID = 
-   START = 
-   STOP = 
+   VID = 0x0000 #According to Windows, This value is 0x8086
+   PID = 0x0001 #According to Windows, this value is 0x9d2f
+   START = 0x0f035f005fffff00
+   STOP = 0x0f03fe00feffff00
+   
 
 Vendor_id = 0x8086
 Product_id = 0x9d2f
@@ -84,21 +85,7 @@ print("attempting to send command")
 #endpoint = interface[ENDPOINT_CHARGER]
 
 
-start_charging = '\x0f\x03\x5f\x00\x5f\xff\xff\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
-
-start_charging2 = '0x0f035f005fffff000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000'
-
-start_charging3 = '0x0f:03:5f:00:5f:ff:ff:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00'
-
-Idle = 'x0f\x03\x5a\x00\x5a\xff\xff\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
-
-Idle2 = 'x0f:03:5a:00:5a:ff:ff:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00'
-
-Pull_data = 'x0f\x03\x55\x00\x55\xff\xff\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
-
-stop_charge = '0x0f03fe00feffff000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000'
-
-ep.write(start_charging.encode('utf-8'))
+ep.write(START.encode('utf-8'))
 
 
 
