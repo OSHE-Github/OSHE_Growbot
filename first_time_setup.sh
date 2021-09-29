@@ -1,4 +1,6 @@
 #!/bin/bash
+# Quit script if any command fails
+set -e
 
 # Update all submodules
 #git submodule update --init --recursive
@@ -16,3 +18,6 @@ pip install -r requirements.txt
 
 # Install NPM packages
 npm i
+
+# Add current user to the video group
+sudo usermod -a -G video $USER
