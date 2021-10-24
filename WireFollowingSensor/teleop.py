@@ -28,7 +28,7 @@ my_drive.axis0.requested_state = AXIS_STATE_CLOSED_LOOP_CONTROL
 my_drive.axis1.requested_state = AXIS_STATE_CLOSED_LOOP_CONTROL
 
 # To read a value, simply read the property
-print("Bus voltage is " + str(my_drive.vbus_voltage) + "V")
+voltageString = ("Bus voltage is " + str(my_drive.vbus_voltage) + "V")
 
 ###################### CURSES PART ##########################
 # Prints a line in the center of the specified screen
@@ -129,6 +129,7 @@ def main(main_screen):
     print_keys(key, main_screen)
     print_line_bottom_center("Use the above keys to drive the robot.", main_screen)
     print_line_bottom_center("Press q to exit.", main_screen, 1)
+    print_line_bottom_center(voltageString, main_screen, 2)
     main_screen.refresh()
     
     # Speed of the robot
@@ -149,7 +150,7 @@ def main(main_screen):
             sys.exit()
         elif key == "j":
             my_drive.axis0.controller.input_vel = setpoint
-            my_drive.axis1.controller.input_vel = setpoint
+            my_drive.axis1.controller.input_vel = -setpoint/2
         elif key == "k":
             my_drive.axis0.controller.input_vel = setpoint
             my_drive.axis1.controller.input_vel = -setpoint
@@ -157,7 +158,7 @@ def main(main_screen):
             my_drive.axis0.controller.input_vel = -setpoint
             my_drive.axis1.controller.input_vel = setpoint
         elif key == ";":
-            my_drive.axis0.controller.input_vel = -setpoint
+            my_drive.axis0.controller.input_vel = setpoint/2
             my_drive.axis1.controller.input_vel = -setpoint
         elif key == "f":
             setpoint += 0.25

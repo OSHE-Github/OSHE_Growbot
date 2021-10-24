@@ -1,7 +1,7 @@
 odrv0.vbus_voltage
 odrv0.axis0.motor.config.current_lim = 70 // If you up this value the motors will fight harder to maintain their position. Motors take up to a max of 70A.
-odrv0.axis0.controller.config.vel_limit = 100
-odrv0.axis0.motor.config.calibration_current = 50
+odrv0.axis0.controller.config.vel_limit = 20
+odrv0.axis0.motor.config.calibration_current = 10
 odrv0.config.brake_resistance = 2
 odrv0.axis0.motor.config.pole_pairs = 7 // number of magnet poles in the rotor, divided by two. To find this, you can simply count the number of permanent magnets in the rotor.
 odrv0.axis0.motor.config.torque_constant = 0.05550335570469799 // (8.27/149 KV) or 1 if you want current control.
@@ -268,3 +268,33 @@ max_endstop:
   config: ...
 watchdog_feed()
 clear_errors()
+<<<<<<< HEAD
+
+dumped errors after holding wheel until robot goes limp
+-------------------------------------------------------
+
+In [6]: dump_errors(odrv0)
+axis0
+  axis: Error(s):
+    AXIS_ERROR_CONTROLLER_FAILED
+  motor: Error(s):
+    MOTOR_ERROR_CONTROL_DEADLINE_MISSED
+  fet_thermistor: no error
+  motor_thermistor: no error
+  encoder: no error
+  controller: Error(s):
+    CONTROLLER_ERROR_OVERSPEED
+axis1
+  axis: no error
+  motor: no error
+  fet_thermistor: no error
+  motor_thermistor: no error
+  encoder: no error
+  controller: no error
+
+Think this fixes things
+-----------------------
+
+odrv0.axis0.motor.config.direction = 1 it is really jumpy tho, need to get it to be smooth.
+=======
+>>>>>>> 2d368ae3b8d38050ddcddc8f3ff60756c3c24c3a
