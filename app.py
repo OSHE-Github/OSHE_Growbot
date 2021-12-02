@@ -3,7 +3,7 @@
 #Growbot
 #Created: 2020/02/23
 #Last Modified: 2020/04/20
-#Description: Flask app that is the front end of the Browbot Web UI
+#Description: Flask app that is the front end of the Growbot Web UI
 
 # These imports are in the standard python3 library quiver, did not need to install these ones through pip
 import os
